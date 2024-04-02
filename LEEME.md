@@ -58,6 +58,14 @@
 
 <img width="500" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTS/assets/27821228/4a34c4bc-b4c4-4fff-80ad-e7dfc92a8a04">
 
+> - React: _Framework JavaScript para la creación de interfaces de usuario interactivas y dinámicas_
+> - Material UI: _Biblioteca de componentes de interfaz de usuario que facilita el desarrollo y mantiene la consistencia visual.
+> - Three.js: _Biblioteca JavaScript para la creación de gráficos 3D en el navegador web, utilizada para la visualización de NFTs en el metaverso.
+> - Web3.js: _Biblioteca JavaScript para la interacción con la BlockChain Ethereum, permitiendo la conexión con MetaMask y la gestión de NFTs.
+
+
+![alt text](image.png)
+
 
 ## 📈 ESCALABILIDAD / INCREMENTOS : Mejoras en el Producto 💡
 
