@@ -39,8 +39,24 @@
 
 ---
 
-# RELEASE PROYECTO FINAL : 🌆 Marketplace Memoria Urbana NFT  🖼️
+# 🌆 Marketplace Memoria Urbana NFT MUTs 🖼️
 ---
+## 📈 ARQUITECURA GENERAL 💡
+
+> - MetaMask: _Actúa como puerta de entrada a la Blockchain, permitiendo la gestión de redes, cuentas y transacciones._
+
+> - Ethereum: _La cadena de bloques principal, junto con Sepolia para pruebas._
+
+> - Truffle Suite: _Herramienta para el desarrollo de Smart Contract._
+
+> - React: _Utilizado para crear interfaces de usuario interactivas._
+
+> - OpenZeppelin: _Proporciona librería de Smart Contract seguros y probados._
+
+> - NFT.storage (IPFS): _Garantiza la persistencia descentralizada de archivos, esencial para NFTs.
+
+
+<img width="500" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTS/assets/27821228/4a34c4bc-b4c4-4fff-80ad-e7dfc92a8a04">
 
 
 ## 📈 ESCALABILIDAD / INCREMENTOS : Mejoras en el Producto 💡
