@@ -22,16 +22,25 @@ module.exports = {
     api_keys: {
         etherscan: process.env.ETH_SCAN_API_KEY,
         polygonscan: process.env.POLYGON_SCAN_API_KEY,
+        sepoliascan: process.env.ETH_SEPOLIA_SCAN_API_KEY,
         bscscan: process.env.BSC_SCAN_API_KEY
     },
 
     contracts_build_directory: "./client/src/contracts",
 
-
     networks: {
         ethereum_goerli_testnet: {
             provider: () => new HDWalletProvider(private_key, checkRPC('ethereum_goerli_testnet', 'ETH_GOERLI_TESTNET_RPC')),
             network_id: 5,
+            confirmations: 2,
+            networkCheckTimeout: 10000,
+            timeoutBlocks: 500,
+            skipDryRun: true,
+            gasPrice: 10000000000
+        },
+        eth_sepolia_testnet: {
+            provider: () => new HDWalletProvider(private_key, checkRPC('eth_sepolia_testnet', 'ETH_SEPOLIA_TESTNET_RPC')),
+            network_id: 11155111,
             confirmations: 2,
             timeoutBlocks: 200,
             skipDryRun: true

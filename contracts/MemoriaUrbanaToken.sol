@@ -8,11 +8,12 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
+
 contract MemoriaUrbanaToken is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
-    // Evento para registrar la creación de un nuevo token
+    // Evento para registrar la creación de un nuevo token..
     event TokenAwarded(address indexed owner, uint256 tokenId, string tokenURI);
 
     constructor() ERC721("MemoriaUrbanaToken", "MUT") {}
@@ -27,7 +28,7 @@ contract MemoriaUrbanaToken is ERC721URIStorage {
 
         _tokenIds.increment();
 
-        // Emitir evento cuando se otorga un nuevo token
+        // Emitir evento cuando se otorga un nuevo token.
         emit TokenAwarded(owner, newItemId, tokenURI);
 
         return newItemId;

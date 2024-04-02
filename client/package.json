@@ -13,6 +13,7 @@
     "web3": "^4.2.2"
   },
   "scripts": {
+    "start_no": "react-app-rewired start",
     "start": "react-scripts start",
     "start1": "react-scripts --openssl-legacy-provider start",
     "start2": "NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
@@ -41,5 +42,9 @@
       "not dead",
       "not op_mini all"
     ]
+  },
+  "devDependencies": {
+    "customize-cra": "^1.0.0",
+    "truffle-plugin-verify": "^0.6.7"
   }
 }

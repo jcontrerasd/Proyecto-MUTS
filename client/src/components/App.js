@@ -6,13 +6,10 @@ import getWeb3 from "../helpers/getWeb3";
 import Imagenppl from './Imagenes/img-ppl.jpg';
 import axios from 'axios';
 
-      
-const NETWORKGOERLI = 5;
-const NETWORKPOLYGON = 80001;
-
+const NETWORKSEPOLIA = 11155111;
+const COMISION = 2.5; // 2.5% de Comisión
 
 export default class App extends React.Component {
-
   state = {
     web3Provider: null,
     accounts: null,
@@ -23,7 +20,7 @@ export default class App extends React.Component {
     newItemId: null,
     imageUrl: null,
     name: null,
-    description: null,    
+    description: null,
     salePriceEth: '',
     messages: [],
     loading: false,
@@ -32,6 +29,8 @@ export default class App extends React.Component {
     newvalueTokenWei: null,
     storageValue: null,
     RUNNETWORK: null,
+    pendingCommission: null, // Nueva variable de estado para almacenar la comisión pendiente
+    commissionAccepted: false, // Nueva variable de estado para almacenar si la comisión fue aceptada o rechazada
   };
 
 
@@ -41,17 +40,18 @@ export default class App extends React.Component {
     try {
       const web3 = await getWeb3();
 
-      // const blockNumber = web3.eth.getBlockNumber({
-      //   fromBlock: 0,
-      // });
-
       const accounts = await web3.eth.getAccounts();
       const networkId = await web3.eth.net.getId();
       const networkIdNumber = Number(networkId);
-    
+
+      // Verificar si la red actual es Sepolia
+      if (networkIdNumber !== NETWORKSEPOLIA) {
+        throw new Error('Dapp Momentaneamente solo opera con la red Sepolia...!!!');
+      }
+
       this.state.RUNNETWORK = networkIdNumber;
-      
-         
+
+
       const CONTRACT_ADDRESS_TOKEN = require("../contracts/MemoriaUrbanaToken.json").networks[this.state.RUNNETWORK].address
       const CONTRACT_ABI_TOKEN = require("../contracts/MemoriaUrbanaToken.json").abi;
 
@@ -107,7 +107,7 @@ export default class App extends React.Component {
 
 
     } catch (error) {
-      this.showNetworkSelectionDialog();  
+      this.showNetworkSelectionDialog();
       let logmsg = `Falla de carga Web3, Cuentas o Contratos.Check la console para mas Detalles. ${error} `;
       this.printMessage("msg", logmsg);
       logmsg = '';
@@ -116,87 +116,83 @@ export default class App extends React.Component {
   }
 
 
-
   /////////////// --------- SMART CONTRACT EVENTS ---------  ///////////////
-    handleContractEvent = async () => {
-      // Wait for the `contract_mkp` instance to be initialized
-      while (!this.state.contract_mkp) {
-        await new Promise((resolve) => setTimeout(resolve, 1000));  
-      }
-
-      while (!this.state.contract_token) {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-      }
-
-      // if (!this.state.contract_mkp.options.address) return;
-      // if (!this.state.contract_token.options.address) return;
-
-      try {
-        let logmsg ='';
-        
-        
-/////////// NFT ////////////
-        const subscription_token = this.state.contract_token.events.allEvents();
-
-        subscription_token.on('connected', function (subscriptionId)  {
-          console.log("New subscription_token with ID: " + subscriptionId)
-          // alert(subscriptionId);
-        })
-
-        let lastPrintedEventId = null;
-
-        subscription_token.on("data", (event) => {
-          if (event.event === "TokenAwarded" && event.transactionHash !== lastPrintedEventId) {
-            logmsg = `[ ${this.getFormattedDateTime()} ] - Event - Nuevo NFT Creado: Owner - ${event.returnValues.owner} TokenID - ${event.returnValues.tokenId} Token URI - ${event.returnValues.tokenURI}`;
-            lastPrintedEventId = event.transactionHash;
-          }
-          this.printMessage("msg", logmsg);
-          logmsg = "";
-        });
-
-
-
-        subscription_token.on("error", (error) => {
-          let logmsg = `Error al escuchar eventos: %o, ${error} `;
-          this.printMessage("msg", logmsg);
-          logmsg = '';
-        })
-
-/////////// MARKETPLACE ////////////
-        const subscription_mkp = this.state.contract_mkp.events.allEvents();
-
-        subscription_mkp.on('connected', (subscriptionId) => {
-          console.log("New subscription_mkp with ID: " + subscriptionId)
-        })
-
-        subscription_mkp.on("data", (event) => {
-          if (event.event === "TokenPurchased" && event.transactionHash !== lastPrintedEventId) {
-            logmsg = `[ ${this.getFormattedDateTime()} ] - Event - NFT Comprado: Comprador ${event.returnValues.buyer} Vendedor ${event.returnValues.seller} TokenID ${event.returnValues.tokenId}  Precio ${event.returnValues.price} Wei `;
-          }
-          if (event.event === "TokenSetForSale" && event.transactionHash !== lastPrintedEventId) {
-            logmsg = `[ ${this.getFormattedDateTime()} ] - Event - NFT en Venta: Owner -  ${event.returnValues.owner}  TokenID ${event.returnValues.tokenId} Precio ${event.returnValues.price}  Wei`;
-          }
-          if (event.event === "TokenUnsetForSale" && event.transactionHash !== lastPrintedEventId) {
-            logmsg = `[ ${this.getFormattedDateTime()} ] - Event - NFT fuera de venta: Owner - ${event.returnValues.owner} TokenID - ${event.returnValues.tokenId}`;
-          }
-          lastPrintedEventId = event.transactionHash;
-          this.printMessage("msg", logmsg);
-          logmsg = '';
-        })
-        subscription_mkp.on("error", (error) => {
-          let logmsg = `Error al escuchar eventos: %o, ${error} `;
-          this.printMessage("msg", logmsg);
-          logmsg = '';
-        })
-        // Print a separator line after each event log
-        this.printMessage("ln");
-      } catch (error) {
-        let logmsg = `Error al configurar la escucha de eventos: %o, ${error} `;
-        this.printMessage("msg", logmsg);
-        logmsg = '';
-      }
+  handleContractEvent = async () => {
+    // Wait for the `contract_mkp` instance to be initialized
+    while (!this.state.contract_mkp) {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     }
 
+    while (!this.state.contract_token) {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
+
+ 
+    try {
+      let logmsg = '';
+
+
+      /////////// NFT ////////////
+      const subscription_token = this.state.contract_token.events.allEvents();
+
+      subscription_token.on('connected', function (subscriptionId) {
+        console.log("New subscription_token with ID: " + subscriptionId)
+        // alert(subscriptionId);
+      })
+
+      let lastPrintedEventId = null;
+
+      subscription_token.on("data", (event) => {
+        if (event.event === "TokenAwarded" && event.transactionHash !== lastPrintedEventId) {
+          logmsg = `[ ${this.getFormattedDateTime()} ] - Event - Nuevo NFT Creado: Owner - ${event.returnValues.owner} TokenID - ${event.returnValues.tokenId} Token URI - ${event.returnValues.tokenURI}`;
+          lastPrintedEventId = event.transactionHash;
+        }
+        this.printMessage("msg", logmsg);
+        logmsg = "";
+      });
+
+
+
+      subscription_token.on("error", (error) => {
+        let logmsg = `Error al escuchar eventos: %o, ${error} `;
+        this.printMessage("msg", logmsg);
+        logmsg = '';
+      })
+
+      /////////// MARKETPLACE ////////////
+      const subscription_mkp = this.state.contract_mkp.events.allEvents();
+
+      subscription_mkp.on('connected', (subscriptionId) => {
+        console.log("New subscription_mkp with ID: " + subscriptionId)
+      })
+
+      subscription_mkp.on("data", (event) => {
+        if (event.event === "TokenPurchased" && event.transactionHash !== lastPrintedEventId) {
+          logmsg = `[ ${this.getFormattedDateTime()} ] - Event - NFT Comprado: Comprador ${event.returnValues.buyer} Vendedor ${event.returnValues.seller} TokenID ${event.returnValues.tokenId}  Precio ${event.returnValues.price} Wei `;
+        }
+        if (event.event === "TokenSetForSale" && event.transactionHash !== lastPrintedEventId) {
+          logmsg = `[ ${this.getFormattedDateTime()} ] - Event - NFT en Venta: Owner -  ${event.returnValues.owner}  TokenID ${event.returnValues.tokenId} Precio ${event.returnValues.price}  Wei`;
+        }
+        if (event.event === "TokenUnsetForSale" && event.transactionHash !== lastPrintedEventId) {
+          logmsg = `[ ${this.getFormattedDateTime()} ] - Event - NFT fuera de venta: Owner - ${event.returnValues.owner} TokenID - ${event.returnValues.tokenId}`;
+        }
+        lastPrintedEventId = event.transactionHash;
+        this.printMessage("msg", logmsg);
+        logmsg = '';
+      })
+      subscription_mkp.on("error", (error) => {
+        let logmsg = `Error al escuchar eventos: %o, ${error} `;
+        this.printMessage("msg", logmsg);
+        logmsg = '';
+      })
+      // Print a separator line after each event log
+      this.printMessage("ln");
+    } catch (error) {
+      let logmsg = `Error al configurar la escucha de eventos: %o, ${error} `;
+      this.printMessage("msg", logmsg);
+      logmsg = '';
+    }
+  }
 
 
   showNetworkSelectionDialog = () => {
@@ -206,34 +202,22 @@ export default class App extends React.Component {
 
     // Crear un párrafo con el texto general
     const generalText = document.createElement("h3");
-    generalText.innerHTML = "PROBLEMA CON LA RED...!!!<br> <br>"+
-                            "DApp solo funciona con GOERLI y POLYGON MUMBAI.<br> <br>"+
-                            "¿A qué red te gustaría Cambiar?" 
+    generalText.innerHTML = "PROBLEMA CON LA RED...!!!<br> <br>" +
+      "Dapp Momentaneamente solo opera con la red Sepolia...!!!<br> <br>" +
+      ""
     dialogDiv.appendChild(generalText);
 
-    // Crear el botón para GOERLI
-    const goerliButton = document.createElement("button");
-    goerliButton.textContent = "GOERLI";
-    goerliButton.addEventListener("click", () => {
-      this.setState({ RUNNETWORK: NETWORKGOERLI }, () => {
-        this.switchNetwork(NETWORKGOERLI);
+    // Crear el botón para SEPOLIA
+    const SEPOLIAButton = document.createElement("button");
+    SEPOLIAButton.textContent = "SEPOLIA";
+    SEPOLIAButton.addEventListener("click", () => {
+      this.setState({ RUNNETWORK: NETWORKSEPOLIA }, () => {
+        this.switchNetwork(NETWORKSEPOLIA);
         dialogDiv.remove(); // Cerrar el diálogo
       });
     });
 
-    // Crear el botón para POLYGON MUMBAI
-    const polygonButton = document.createElement("button");
-    polygonButton.textContent = "MUMBAI";
-    polygonButton.addEventListener("click", () => {
-      this.setState({ RUNNETWORK: NETWORKPOLYGON }, () => {
-        this.switchNetwork(NETWORKPOLYGON);
-        dialogDiv.remove(); // Cerrar el diálogo
-      });
-    });
-
-    // Agregar los botones al div del diálogo
-    dialogDiv.appendChild(goerliButton);
-    dialogDiv.appendChild(polygonButton);
+    dialogDiv.appendChild(SEPOLIAButton);
 
     // Agregar el div del diálogo al cuerpo del documento
     document.body.appendChild(dialogDiv);
@@ -243,31 +227,20 @@ export default class App extends React.Component {
 
   // ------------ METAMASK SWITCH NETWORK ------------
   switchNetwork = async (targetNetwork) => {
-    let chainId, chainName, rpcUrls, blockExplorerUrls ;
+    let chainId, chainName, rpcUrls, blockExplorerUrls;
     const nativeCurrency = {};
 
     try {
       switch (targetNetwork) {
-        case NETWORKGOERLI:
-          // chainId = '0x5'; // Chain ID for Goerli
-          chainId = `0x${NETWORKGOERLI.toString(16)}`
-          chainName = 'Red de prueba Goerli';
-          rpcUrls = ['https://goerli.infura.io/v3/']; // RPC URL for Goerli
-          nativeCurrency.name = 'ETH';
-          nativeCurrency.symbol = 'ETH';
+        case NETWORKSEPOLIA:
+          // chainId = '0x5'; // Chain ID for SEPOLIA
+          chainId = `0x${NETWORKSEPOLIA.toString(16)}`
+          chainName = 'SEPOLIA';
+          rpcUrls = ['https://sepolia.infura.io/v3/d571bed228404b8cb615e74b35ece409']; // RPC URL for SEPOLIA
+          nativeCurrency.name = 'SepoliaETH';
+          nativeCurrency.symbol = 'SepoliaETH';
           nativeCurrency.decimals = 18;
-          blockExplorerUrls = ['https://etherscan.io']; 
-          break;
-        case NETWORKPOLYGON:
-          // chainId = `0x${NETWORKPOLYGON}`;
-          chainId = `0x${NETWORKPOLYGON.toString(16)}`;
-          chainName = 'Mumbai';
-          // rpcUrls = ['https://rpc-mumbai.maticvigil.com/']; // RPC URL for Mumbai
-          rpcUrls = ['https://polygon-mumbai.infura.io/v3/API_KEYS'];
-          nativeCurrency.name = 'MATIC';
-          nativeCurrency.symbol = 'MATIC';
-          nativeCurrency.decimals = 18;
-          blockExplorerUrls = ['https://mumbai.polygonscan.com/']; 
+          blockExplorerUrls = ['https://sepolia.etherscan.io/'];
           break;
         default:
           throw new Error(`Invalid target network: ${targetNetwork}`);
@@ -307,7 +280,7 @@ export default class App extends React.Component {
     }
   }
 
-    // --------- METAMASK EVENTS ---------
+  // --------- METAMASK EVENTS ---------
 
   handleMetamaskEvents = () => {
     window.ethereum.on('accountsChanged', (accounts) => {
@@ -320,29 +293,34 @@ export default class App extends React.Component {
       // Aquí deberías reconectar los servicios/componentes necesarios
     });
 
-    window.ethereum.on('chainChanged', (chainId) => {
-      // Actualizar el estado con la nueva cadena
-      alert("Cambiando de Network  ⇢ 🦊 ⇠ !!!");
-      this.handleChainChanged(chainId);
-      this.setState({ web3Provider: web3 });
-      window.location.reload();
-
-
+    window.ethereum.on('chainChanged', async (chainId) => {
+      // Verificar si la nueva red es compatible con la aplicación
+      const supportedNetworks = [NETWORKSEPOLIA];
+      if (!supportedNetworks.includes(parseInt(chainId, 16))) {
+        alert("Dapp Momentaneamente solo opera con la red Sepolia...!!!");
+        // Cambiar automáticamente a la red predeterminada (por ejemplo, Sepolia)
+        await this.switchNetwork(NETWORKSEPOLIA);
+        window.location.reload();
+      } else {
+        // Actualizar el estado con la nueva red
+        this.setState({ web3Provider: web3 });
+        window.location.reload();
+      }
     });
   }
 
-    handleChainChanged = (chainId) => {
-      // Convertir el chainId a un número (opcional, dependiendo de cómo desees usarlo)
-      const numericChainId = parseInt(chainId, 16);
-      this.setState({ networkId: numericChainId });
-      this.setState({ web3Provider: web3 });
+  handleChainChanged = (chainId) => {
+    // Convertir el chainId a un número (opcional, dependiendo de cómo desees usarlo)
+    const numericChainId = parseInt(chainId, 16);
+    this.setState({ networkId: numericChainId });
+    this.setState({ web3Provider: web3 });
 
-      window.location.reload();
-      // Actualizar el estado con la nueva red
-      this.setState({ RUNNETWORK: chainId });
+    window.location.reload();
+    // Actualizar el estado con la nueva red
+    this.setState({ RUNNETWORK: chainId });
 
-      // Aquí deberías actualizar/reiniciar la instancia de web3 y otros componentes relacionados
-    }
+    // Aquí deberías actualizar/reiniciar la instancia de web3 y otros componentes relacionados
+  }
 
 
   // Función para agregar mensajes o separadores
@@ -517,37 +495,104 @@ export default class App extends React.Component {
   };
 
 
-  ponerVentaNFT = async (tokenId, priceEth) => {
+  // Nueva función para proponer una comisión al vendedor antes de poner el NFT a la venta
+  proposeCommission = async (tokenId, priceEth) => {
     const { accounts, contract_mkp } = this.state;
-
     const priceWei = web3.utils.toWei(priceEth.toString(), 'ether');
+    const commission = (priceWei * COMISION) / 100; // Calcular la comisión del 2.5%
 
-    this.setState({ loading: true }); // Activar el indicador de carga
+    this.setState({ loading: true, pendingCommission: commission }); // Activar el indicador de carga y almacenar la comisión pendiente
     let logmsg;
 
     try {
       //////// SEPARADOR ////////
       this.printMessage("ln");
 
-      //////// INICIO PUESTA EN VENTA DE NFT ////////
-      logmsg = `[ ${this.getFormattedDateTime()} ]- Inicio de Puesta en Venta  token ID: ${tokenId} mediante Contrato ${this.state.contract_mkp.options.address} a un precio de ${priceEth}  / ${priceWei} Wei `;
+      //////// PROPONER COMISIÓN ////////
+      logmsg = `[ ${this.getFormattedDateTime()} ] - Proponiendo una comisión de ${web3.utils.fromWei(commission.toString(), 'ether')} ETH (2.5%) al vendedor para el token ID: ${tokenId} con un precio de ${priceEth} ETH`;
       this.printMessage("msg", logmsg);
 
-      await contract_mkp.methods.setSale(tokenId, priceWei).send({ from: accounts[0] });
+      // Mostrar un cuadro de diálogo para que el vendedor acepte o rechace la comisión
+      const accepted = window.confirm(`Se aplicará una comisión de ${web3.utils.fromWei(commission.toString(), 'ether')} ETH (2.5%) para la venta de este NFT. ¿Aceptas esta comisión?`);
 
-
-      //////// NFT PUESTO A LA VENTA ////////
-      logmsg = `[ ${this.getFormattedDateTime()} ]- Puesto a la Venta  token ID: ${tokenId} mediante Contrato ${this.state.contract_mkp.options.address} a un Precio  ${priceEth}  / ${priceWei} Wei`;
-      this.printMessage("msg", logmsg);
+      if (accepted) {
+        //////// COMISIÓN ACEPTADA ////////
+        logmsg = `[ ${this.getFormattedDateTime()} ] - Comisión aceptada por el vendedor para el token ID: ${tokenId}`;
+        this.printMessage("msg", logmsg);
+        this.setState({ commissionAccepted: true }); // Actualizar el estado para indicar que la comisión fue aceptada
+      } else {
+        //////// COMISIÓN RECHAZADA ////////
+        logmsg = `[ ${this.getFormattedDateTime()} ] - Comisión rechazada por el vendedor para el token ID: ${tokenId}`;
+        this.printMessage("msg", logmsg);
+        this.setState({ pendingCommission: null, commissionAccepted: false }); // Restablecer los estados
+      }
 
       //////// SEPARADOR ////////
       this.printMessage("ln");
-
     } catch (error) {
-      logmsg = `[ ${this.getFormattedDateTime()} ]- Error al poner a la venta el NFT:' ${error.message}`;
+      logmsg = `[ ${this.getFormattedDateTime()} ] - Error al proponer la comisión: ${error.message}`;
       this.printMessage("msg", logmsg);
     } finally {
       this.setState({ loading: false }); // Desactivar el indicador de carga
+    }
+  };
+
+
+
+  // Modificar la función ponerVentaNFT para llamar a proposeCommission antes de poner el NFT a la venta
+  ponerVentaNFT = async (tokenId, priceEth) => {
+    const { accounts, contract_mkp, commissionAccepted } = this.state;
+    let logmsg;
+
+
+    // if (!commissionAccepted) {
+    //   // Proponer la comisión antes de poner el NFT a la venta
+    //   await this.proposeCommission(tokenId, priceEth);
+    // }
+
+    if (!commissionAccepted) {
+      // Proponer la comisión antes de poner el NFT a la venta
+      const result = await this.proposeCommission(tokenId, priceEth);
+      // Actualizar commissionAccepted según el resultado de proposeCommission
+
+      if (result && result.accepted !== undefined) {
+        // console.log('Valor de result.accepted:', result.accepted);
+        this.setState({ commissionAccepted: result.accepted });
+        // console.log('Nuevo valor de commissionAccepted:', this.state.commissionAccepted);
+      } else {
+        // console.log('result es undefined o result.accepted es undefined');
+        this.setState({ commissionAccepted: false });
+        // console.log('Nuevo valor de commissionAccepted:', this.state.commissionAccepted);
+      }
+    }
+
+    if (this.state.commissionAccepted) {
+      const priceWei = web3.utils.toWei(priceEth.toString(), 'ether');
+
+      this.setState({ loading: true }); // Activar el indicador de carga
+
+      try {
+        //////// SEPARADOR ////////
+        this.printMessage("ln");
+
+        //////// INICIO PUESTA EN VENTA DE NFT ////////
+        logmsg = `[ ${this.getFormattedDateTime()} ]- Inicio de Puesta en Venta  token ID: ${tokenId} mediante Contrato ${this.state.contract_mkp.options.address} a un precio de ${priceEth}  / ${priceWei} Wei `;
+        this.printMessage("msg", logmsg);
+
+        await contract_mkp.methods.setSale(tokenId, priceWei).send({ from: accounts[0] });
+
+        //////// NFT PUESTO A LA VENTA ////////
+        logmsg = `[ ${this.getFormattedDateTime()} ]- Puesto a la Venta  token ID: ${tokenId} mediante Contrato ${this.state.contract_mkp.options.address} a un Precio  ${priceEth}  / ${priceWei} Wei`;
+        this.printMessage("msg", logmsg);
+
+        //////// SEPARADOR ////////
+        this.printMessage("ln");
+      } catch (error) {
+        logmsg = `[ ${this.getFormattedDateTime()} ]- Error al poner a la venta el NFT:' ${error.message}`;
+        this.printMessage("msg", logmsg);
+      } finally {
+        this.setState({ loading: false, commissionAccepted: false }); // Desactivar el indicador de carga y restablecer el estado de la comisión
+      }
     }
   };
 
@@ -585,6 +630,7 @@ export default class App extends React.Component {
   };
 
 
+  // Modificar la función comprarNFT para descontar la comisión al vendedor
   comprarNFT = async (tokenident, precioeth) => {
     const { accounts, contract_mkp } = this.state;
 
@@ -593,23 +639,24 @@ export default class App extends React.Component {
 
     try {
       const valueTokenWei = web3.utils.toWei(precioeth, 'ether');
+      const commission = (valueTokenWei * COMISION) / 100; // Calcular la comisión del 2.5%
+      const sellerAmount = valueTokenWei - commission; // Monto a pagar al vendedor después de descontar la comisión
 
-      //////// SEPARADOR ////////
+      //////// SEPARADOR ////////   
       this.printMessage("ln");
       this.printMessage("ln");
 
       // Iniciando proceso de compra
-      logmsg = `[ ${this.getFormattedDateTime()} ]- Iniciando Compra de Token ID: ${tokenident}, a un Precio de ${precioeth}  / ${valueTokenWei} Wei`;
+      logmsg = `[ ${this.getFormattedDateTime()} ]- Iniciando Compra de Token ID: ${tokenident}, a un Precio de ${precioeth} ETH / ${valueTokenWei} Wei (incluyendo comisión de ${web3.utils.fromWei(commission.toString(), 'ether')} ETH)`;
       this.printMessage("msg", logmsg);
 
       await contract_mkp.methods.buyToken(tokenident).send({ from: accounts[0], value: valueTokenWei });
 
       // Proceso de compra finalizado
-      logmsg = `[ ${this.getFormattedDateTime()} ]- Proceso de Compra Finalizado para Token ID: ${tokenident}, a un Precio de ${precioeth}  / ${valueTokenWei} Wei`;
+      logmsg = `[ ${this.getFormattedDateTime()} ]- Proceso de Compra Finalizado para Token ID: ${tokenident}, a un Precio de ${precioeth} ETH / ${valueTokenWei} Wei (Vendedor recibe ${web3.utils.fromWei(sellerAmount.toString(), 'ether')} ETH después de la comisión)`;
       this.printMessage("msg", logmsg);
       this.setState({ salePriceEth: '' });
     } catch (error) {
-
       //////// SEPARADOR ////////
       this.printMessage("ln");
 
@@ -621,7 +668,7 @@ export default class App extends React.Component {
   };
 
 
-  
+
   // ------------ SIGN WITH METAMASK ------------
   signMessage = async () => {
     const { accounts, web3Provider } = this.state;
@@ -640,227 +687,249 @@ export default class App extends React.Component {
 
 
   /////// R E N D E R //////
-
   render() {
-
     const messagesToShow = [...this.state.messages].reverse();
+    const showLog = this.state.showLog;
 
     const Spinner = () => (
-      <div className="spinner-container">
+      <div className="spinner-overlay">
         <div className="spinner"></div>
       </div>
     );
 
     if (!this.state.web3Provider) {
-      return <div className="App-no-web3">
-        <h1>No estas conectado a Web3 !!!</h1>
-      </div>;
+      return (
+        <div className="App-no-web3">
+          <h1>No Estás Conectado a Web3</h1>
+        </div>
+      );
     }
+
     return (
       <div className="App">
+        <div className="project-description">
+          Preservar los momentos urbanos en NFTs
+        </div>
+
+        <div className="toggle-log-container">
+          <label htmlFor="toggle-log">Mostrar Log</label>
+          <input
+            type="checkbox"
+            id="toggle-log"
+            checked={showLog}
+            onChange={() => this.setState({ showLog: !showLog })}
+          />
+        </div>
+
+        {this.state.loading && <Spinner />}
+
         <div className="main-container">
           <div className="left-section">
             <div className="card">
-
               <div className="Contract-header card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h2>INFORMACIÓN DE CONEXIÓN</h2>
-                <button id="button" onClick={this.signMessage}>SIGN MESSAGE</button>
+                <h2>Información de Conexión</h2>
+                <button id="button" onClick={this.signMessage}>
+                  <span className="material-icons">fingerprint</span>
+                  Firmar Mensaje
+                </button>
               </div>
-              <p> <strong>💻 Network connected :</strong> {this.state.networkIdNumber}
-                <span style={{ marginLeft: '50px' }}> <strong>🪙 Wallet Address :</strong> {this.state.accounts[0]}</span>
+              <p>
+                <span className="material-icons">network_check</span> <strong>Red Conectada:</strong>
+                {this.state.networkIdNumber === 11155111 ? 'Sepolia' : this.state.networkIdNumber === 80001 ? 'Polygon' : 'Red No Soportada'}
+                <span style={{ marginLeft: '50px' }}>
+                  <span className="material-icons">account_balance_wallet</span> <strong>Dirección de Wallet:</strong> {this.state.accounts[0]}
+                </span>
               </p>
             </div>
 
             {this.state.accounts && (
               <div className="card">
-                <h2>DETALLES DE CONTRATO</h2>
+                <h2>Detalles de Contrato</h2>
                 {this.state.nametoken && (
                   <p>
-                    <strong><b>🌃 Nombre NFTs :</b></strong> {this.state.nametoken}
+                    <span className="material-icons">location_city</span> <strong><b>Nombre NFTs:</b></strong> {this.state.nametoken}
                     <span style={{ marginLeft: '50px' }}>
-                      <strong><b>✴️ Simbolo NFTs :</b></strong> {this.state.symboltoken}
+                      <span className="material-icons">diamond</span> <strong><b>Símbolo NFTs:</b></strong> {this.state.symboltoken}
                     </span>
                   </p>
                 )}
-                <p><strong>📜 Contract MemoriaUrbanaToken : </strong>{this.state.contract_token.options.address}</p>
-                <p><strong>📜 Contract MarketPlace : </strong>{this.state.contract_mkp.options.address}</p>
+                <p>
+                  <span className="material-icons">description</span> <strong>Contract MemoriaUrbanaToken:</strong> {this.state.contract_token.options.address}
+                </p>
+                <p>
+                  <span className="material-icons">description</span> <strong>Contract MarketPlace:</strong> {this.state.contract_mkp.options.address}
+                </p>
               </div>
             )}
           </div>
-          <div className="right-section">
-            <img src={Imagenppl} alt="Descripción del Proyecto..." />
+          <div className="main-Content">
+            <h3>
+              <span className="material-icons">add_circle</span>
+              Crear Nuevo NFT
+            </h3>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+              <input
+                style={{ width: '500px', marginRight: '5px', marginTop: '0px', marginBottom: '0px' }}
+                placeholder="Inserte la URI del Token"
+                value={this.state.tokenURI}
+                onChange={(uri) => this.setState({ tokenURI: uri.target.value })}
+              />
+              <button id="button" onClick={this.crearNFT}>
+                <span className="material-icons">add</span>
+                Crear NFT
+              </button>
+            </div>
+
+            {/* Contenedor para el botón y la imagen */}
+            {this.state.newItemId && (
+              <div className="item-container">
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', margin: 0, marginTop: '0px', marginBottom: '10px' }}>
+                    <p><strong>{this.state.name}</strong></p>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', margin: 0, marginTop: '0px', marginBottom: '10px' }}>
+                    <div style={{ flex: 1, textAlign: 'left' }}>
+                      <p><strong>{`ID NFT: ${this.state.newItemId}`}</strong></p>
+                    </div>
+                    <div style={{ flex: 1, marginLeft: '10px' }}>
+                      <img src={this.state.imageUrl} alt="Imagen del NFT" className="small-image" />
+                    </div>
+                  </div>
+                  <div style={{ textAlign: 'left' }}>
+                    <p><strong>{this.state.description}</strong></p>
+                  </div>
+                </div>
+
+                {/* Botón para aprobar el NFT */}
+                <button id="button" onClick={() => this.aprobarNFT(this.state.newItemId)}>
+                  <span className="material-icons">check_circle</span>
+                  Aprobar NFT
+                </button>
+              </div>
+            )}
+
+            <hr className="separator-line" />
+
+            {/* VENDER NFT */}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ marginRight: '5px', flexGrow: 1 }}>
+                <h3>
+                  <span className="material-icons">sell</span>
+                  <p> Vender NFT</p>
+                </h3>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', marginRight: '5px' }}>
+                <input
+                  style={{ width: '110px', marginBottom: '0px' }}
+                  placeholder="TokenID"
+                  type="number"
+                  onChange={(t1) => this.setState({ tokenident: t1.target.value })}
+                />
+                <input
+                  style={{ width: '110px', marginBottom: '0px' }}
+                  placeholder="Precio NFT"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  onChange={(p1) => this.setState({ salePriceEth: p1.target.value })}
+                />
+              </div>
+              <div style={{ marginLeft: 'auto' }}>
+                <button
+                  id="button"
+                  onClick={() => this.ponerVentaNFT(this.state.tokenident, this.state.salePriceEth)}
+                >
+                  <span className="material-icons">attach_money</span>
+                  Vender NFT
+                </button>
+              </div>
+            </div>
+
+            <hr className="separator-line" />
+
+            {/* CONSULTA PRECIO NFT */}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ marginRight: '5px', flexGrow: 1 }}>
+                <h3>
+                  <span className="material-icons">search</span>
+                  <p> Consulta Precio NFT </p>
+                </h3>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', marginRight: '5px' }}>
+                <input
+                  style={{ width: '110px', marginBottom: '0px' }}
+                  placeholder="TokenID"
+                  type="number"
+                  onChange={(t2) => this.setState({ tokenident: t2.target.value })}
+                />
+                <input
+                  style={{ width: '110px', marginBottom: '0px' }}
+                  placeholder="Precio NFT"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={this.state.valueTokenEth}
+                  readOnly
+                />
+              </div>
+
+              <div style={{ marginLeft: 'auto' }}>
+                <button id="button" onClick={() => this.consultarPrecioNFT(this.state.tokenident)}>
+                  <span className="material-icons">search</span>
+                  Consultar Precio
+                </button>
+              </div>
+            </div>
+
+            <hr className="separator-line" />
+
+            {/* COMPRA NFT */}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ marginRight: '5px', flexGrow: 1 }}>
+                <h3>
+                  <span className="material-icons">shopping_cart</span>
+                  <p> Comprar NFT </p>
+                </h3>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', marginRight: '5px' }}>
+                <input
+                  style={{ width: '110px', marginBottom: '0px' }}
+                  placeholder="TokenID"
+                  type="number"
+                  onChange={(t3) => this.setState({ tokenident: t3.target.value })}
+                />
+                <input
+                  style={{ width: '110px', marginBottom: '0px' }}
+                  placeholder="Precio NFT"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  onChange={(p2) => this.setState({ salePriceEth: p2.target.value })}
+                />
+              </div>
+              <div style={{ marginLeft: 'auto' }}>
+                <button id="button" onClick={() => this.comprarNFT(this.state.tokenident, this.state.salePriceEth)}>
+                  <span className="material-icons">shopping_cart</span>
+                  Comprar NFT
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
-        <hr className="separator-line" />
-        {/* /////////////////////////// LOG DE PROCESO /////////////////////////// */}
-        <div className="logContainer">
-          <h2 id="margen-titulo">  LOG DEL PROCESO </h2>
+        <div className={`logContainer ${showLog ? 'show' : ''}`}>
+          <div className="logHeader">
+            <h2>Log del Proceso</h2>
+
+          </div>
           <div className="logBox">
             {messagesToShow.map((message, index) => (
               <p key={index} className="message">{message}</p>
             ))}
           </div>
         </div>
-
-        {/* ---- CREAR NFT ---- */}
-        <div className="appContainer">
-          <div className="Component-body">
-            <div className="main-Content">
-              {/* /////////////////////////// CREAR NFT /////////////////////////// */}
-              <h3 style={{ margin: 0, marginRight: 10 }}> CREAR NUEVO NFT</h3>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
-                <input
-                  style={{ width: '500px', marginRight: '5px', marginTop: '0px', marginBottom: '0px' }} // Input con ancho fijo de 250px
-                  placeholder="Inserte la URI del Token"
-                  value={this.state.tokenURI}
-                  onChange={(uri) => this.setState({ tokenURI: uri.target.value })}>
-                </input>
-                {/* Indicador de carga */}
-                <button
-                  id="button"
-                  onClick={this.crearNFT} >
-                  Crear nuevo NFT
-                </button>
-              </div>
-
-              {/* /////////////////////////// APROBAR MARKETPLACE /////////////////////////// */}
-              {/* Indicador de carga */}
-              {this.state.loading && <Spinner />}
-
-              {/* Contenedor para el botón y la imagen */}
-              {this.state.newItemId &&
-                (
-                  <div className="item-container">
-                    <div>
-                      <div style={{ display: 'flex', alignItems: 'center', margin: 0, margintop: '0px', marginBottom: '10px' }}>
-                        <p><strong>{this.state.name}</strong></p>
-                      </div>
-                      <div style={{ display: 'flex', alignItems: 'center', margin: 0, margintop: '0px', marginBottom: '10px' }}>
-                        <div style={{ flex: 1, textAlign: 'left' }}>
-                          <p><strong>{`ID NFT: ${this.state.newItemId}`}</strong></p>
-                        </div>
-                        <div style={{ flex: 1, marginLeft: '10px' }}>
-                          <img src={this.state.imageUrl} alt="Imagen del NFT" className="small-image" />
-                        </div>
-                      </div>
-                      <div style={{ textAlign: 'left' }}>
-                        <p><strong>{this.state.description}</strong></p>
-                      </div>
-                    </div>
-
-                    {/* Botón para aprobar el NFT */}
-                    <button id="button" onClick={() => this.aprobarNFT(this.state.newItemId)}>
-                      Aprobar NFT para Marketplace
-                    </button>
-
-                  </div>
-                )}
-
-              <hr className="separator-line" />
-
-              {/* /////////////////////////// VENDER NFT /////////////////////////// */}
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <div style={{ marginRight: '5px', flexGrow: 1 }}>
-                  <h3> <p> VENDER NFT</p></h3>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', marginRight: '5px' }}>
-                  <input
-                    style={{ width: '110px', marginBottom: '0px' }}
-                    placeholder="TokenID"
-                    type="number"
-                    onChange={(t1) => this.setState({ tokenident: t1.target.value })}
-                  />
-                  <input
-                    style={{ width: '110px', marginBottom: '0px' }}
-                    placeholder="Precio NFT"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    onChange={(p1) => this.setState({ salePriceEth: p1.target.value })}
-                  />
-                </div>
-                {/* Indicador de carga */}
-                {this.state.loading && <Spinner />}
-                <div style={{ marginLeft: 'auto' }}>
-                  <button
-                    id="button"
-                    onClick={() => this.ponerVentaNFT(this.state.tokenident, this.state.salePriceEth)}>
-                    Poner NFT a la venta
-                  </button>
-                </div>
-              </div>
-
-              <hr className="separator-line" />
-
-              {/* /////////////////////////// CONSULTA PRECIO NFT /////////////////////////// */}
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <div style={{ marginRight: '5px', flexGrow: 1 }}>
-                  <h3> <p> CONSULTA PRECIO NFT </p></h3>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', marginRight: '5px' }}>
-                  <input
-                    style={{ width: '110px', marginBottom: '0px' }} // Establece un ancho fijo y margen
-                    placeholder="TokenID"
-                    type="number"
-                    onChange={(t2) => this.setState({ tokenident: t2.target.value })}>
-                  </input>
-                  <input
-                    style={{ width: '110px', marginBottom: '0px' }} // Establece un ancho fijo y margen
-                    placeholder="Precio NFT"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    value={this.state.valueTokenEth}
-                    readOnly>
-                  </input>
-                </div>
-
-                {this.state.loading && <Spinner />}
-                <div style={{ marginLeft: 'auto' }}>
-                  <button id="button"
-                    onClick={() => this.consultarPrecioNFT(this.state.tokenident)}>
-                    Consultar Precio NFT
-                  </button>
-                </div>
-              </div>
-
-              <hr className="separator-line" />
-
-              {/* //////////////////////////// ----COMPRA NFT ---- ///////////////////////////  */}
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <div style={{ marginRight: '5px', flexGrow: 1 }}>
-                  <h3> <p> COMPRAR NFT </p></h3>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', marginRight: '5px' }}>
-                  <input
-                    style={{ width: '110px', marginBottom: '0px' }}
-                    placeholder="TokenID"
-                    type="number"
-                    onChange={(t3) => this.setState({ tokenident: t3.target.value })}>
-                  </input>
-                  <input
-                    style={{ width: '110px', marginBottom: '0px' }}
-                    placeholder="Precio NFT"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    onChange={(p2) => this.setState({ salePriceEth: p2.target.value })}>
-                  </input>
-                </div>
-                {this.state.loading && <Spinner />}
-                <div style={{ marginLeft: 'auto' }}>
-                  <button id="button"
-                    onClick={() => this.comprarNFT(this.state.tokenident, this.state.salePriceEth)}>
-                    Comprar NFT
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     );
+            }
 
-  }
 }

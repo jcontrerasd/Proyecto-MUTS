@@ -1,0 +1,65 @@
+
+Compiling your contracts...
+===========================
+> Everything is up to date, there is nothing to compile.
+
+
+Starting migrations...
+======================
+> Network name:    'eth_sepolia_testnet'
+> Network id:      11155111
+> Block gas limit: 30000000 (0x1c9c380)
+
+
+1_deploy_contracts.js
+=====================
+
+   Replacing 'MemoriaUrbanaToken'
+   ------------------------------
+   > transaction hash:    0x1873689468f9be64f3d79b4a848fb7fd79850dc2957dfe5267f5d2e72d9296c0
+   > Blocks: 1            Seconds: 28
+   > contract address:    0x0B792DeefBc6f202c78cb34F8C3B4d186f6b2832
+   > block number:        5574101
+   > block timestamp:     1711576092
+   > account:             0x79FF42e19e893687Fef6E75B2041C3A8944Ff7E8
+   > balance:             0.197130210765536701
+   > gas used:            2542779 (0x26ccbb)
+   > gas price:           2.613622821 gwei
+   > value sent:          0 ETH
+   > total cost:          0.006645865223159559 ETH
+
+   Pausing for 2 confirmations...
+
+   -------------------------------
+   > confirmation number: 1 (block: 5574102)
+   > confirmation number: 2 (block: 5574103)
+
+   Replacing 'Market_Place'
+   ------------------------
+   > transaction hash:    0xafc56cd2aab6006efadd6d6dede044dcc9516627b61f9c83fbe4fa0e34d467f8
+   > Blocks: 1            Seconds: 16
+   > contract address:    0xf290c169C0184adb2cCc5BAC23cf91Ff72cDdE30
+   > block number:        5574105
+   > block timestamp:     1711576140
+   > account:             0x79FF42e19e893687Fef6E75B2041C3A8944Ff7E8
+   > balance:             0.188665130001224694
+   > gas used:            3233371 (0x31565b)
+   > gas price:           2.618035717 gwei
+   > value sent:          0 ETH
+   > total cost:          0.008465080764312007 ETH
+
+   Pausing for 2 confirmations...
+
+   -------------------------------
+   > confirmation number: 1 (block: 5574106)
+   > confirmation number: 2 (block: 5574107)
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:     0.015110945987471566 ETH
+
+Summary
+=======
+> Total deployments:   2
+> Final cost:          0.015110945987471566 ETH
+
+

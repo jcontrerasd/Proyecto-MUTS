@@ -21,14 +21,23 @@
   },
   "homepage": "https://github.com/Diegoescalonaro/react-simple-truffle-box#readme",
   "dependencies": {
-    "@openzeppelin/contracts": "^5.0.0",
+    "@openzeppelin/contracts": "^4.7.3",
     "@truffle/hdwallet-provider": "^1.7.0",
     "dotenv": "^16.0.3",
     "ethers": "^6.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
-    "truffle": "^5.8.4",
+    "solc": "^0.8.20",
+    "truffle": "^5.7.3",
     "web3": "^4.2.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.21.0",
+    "@babel/preset-env": "^7.24.0",
+    "customize-cra": "^1.0.0",
+    "react-app-rewired": "^2.2.1",
+    "truffle-plugin-verify": "^0.6.7"
   }
 }
