@@ -1,5 +1,5 @@
 
-# 🌐 ****APLICACIÓN DApp Web3*********** 🚀
+# 🌐 **APLICACIÓN DApp Web3** 🚀
 ---
 # Índice
 
