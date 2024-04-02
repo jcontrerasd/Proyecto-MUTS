@@ -39,7 +39,7 @@
 
 ---
 
-# 🌆 Marketplace Memoria Urbana NFT MUTs 🖼️
+# 🌆 Marketplace Memoria Urbana MUTs 🖼️
 ---
 ## 📈 ARQUITECURA GENERAL 💡
 
