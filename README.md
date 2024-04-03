@@ -2,6 +2,9 @@
 # 🌐 **APLICACIÓN DApp Web3 MUTs** 🚀
 
 # 🌆 Marketplace Memoria Urbana MUTs 🖼️
+
+<img width="400" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTs/assets/27821228/e69ac0e5-6d61-4b63-b773-e13467a04cad" style="display: block; margin-left: auto; margin-right: auto;">
+
 ---
 
 # Índice
