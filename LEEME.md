@@ -71,7 +71,8 @@ Incorpora la automatización de la compilación, implementación y verificación
 
 ## [Compilación/Despliegue/Verificación](https://github.com//jcontrerasd/Proyecto-MUTS/raw/main/0.-Compilación+Despliegue+Verificación[Sepolia].mp4)
 
-<img width="700" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTS/assets/27821228/4f299d24-868c-4d9f-b3fc-74926d97eb7c">
+<img width="341" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTs/assets/27821228/4b9945f6-cfe6-49d5-83c7-fc5f8a567651" style="display: block; margin-left: auto; margin-right: auto;">
+
 
 
 
