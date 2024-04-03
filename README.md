@@ -34,7 +34,6 @@
 > - **OpenZeppelin:** _Proporciona librería de Smart Contract seguros y probados._
 > - **NFT.storage (IPFS):** _Garantiza la persistencia descentralizada de archivos, esencial para NFTs.
 
-![image](https://github.com/jcontrerasd/Proyecto-MUTS/assets/27821228/4a34c4bc-b4c4-4fff-80ad-e7dfc92a8a04)
 
 <img width="400" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTS/assets/27821228/4a34c4bc-b4c4-4fff-80ad-e7dfc92a8a04" style="display: block; margin-left: auto; margin-right: auto;">
 
