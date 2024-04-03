@@ -3,45 +3,13 @@
 ---
 # Índice
 
-1. [Introducción](#introducción)
-2. [Release Proyecto Final: Marketplace Memoria Urbana NFT](#release-proyecto-final--marketplace-memoria-urbana-nft)
-    1. [Escalabilidad / Incrementos: Mejoras en el Producto](#escalabilidad--incrementos--mejoras-en-el-producto)
-        - [Script](#script)
-        - [Compilación/Despliegue/Verificación](#compilacióndespliegueverificación)
-    2. [1_deploy_contracts.js SMART CONTRACT](#1_deploy_contractsjs-smart-contract)
-3. [1.- Switch entre redes Goerli y Polygon Mumbai (Layer 2)](#1--switch-entre-redes-goerli-y-polygon-mumbai-layer-2)
-    - [Beneficio: Busca escalar en rendimiento y costo](#beneficio-busca-escalar-en-rendimiento-y-costo)
-    - [Video Demostrativo Switch](#video-demostrativo-switch)
-4. [2.- Manejo de eventos (Event/Emit)](#2--manejo-de-eventos-eventemit)
-    - [Beneficio: Tener un control de cada acción de los contratos](#beneficio-tener-un-control-de-cada-acción-de-los-contratos)
-    - [Video Demostrativo Lectura de Eventos](#video-demostrativo-lectura-de-eventos)
-    - [Event Smart Contract MemoriaUrbanaToken.sol](#event-smart-contract-memoriaurbanatokensol)
-    - [Event Smart Contract Market_Place.sol](#event-smart-contract-market_placesol)
-5. [3.- Inclusión de uso IPFS NFT.Storage y Metadatos del NFT](#3--inclusión-de-uso-ipfs-nftstorage-y-metadatos-del-nft)
-    - [Beneficio: Persistir los activos (NFT) que se vayan generando en el tiempo](#beneficio-persistir-los-activos-nft-que-se-vayan-generando-en-el-tiempo)
-    - [Video Demostrativo Uso NFT.Storage](#video-demostrativo-uso-nftstorage)
-6. [4.- Despliegue de Dapps en IPFS usando NFT.Storage](#4--despliegue-de-dapps-en-ipfs-usando-nftstorage)
-    - [Beneficio: Aumentar la tolerancia a fallos y la resiliencia en general](#beneficio-aumentar-la-tolerancia-a-fallos-y-la-resiliencia-en-general)
-    - [Video Demostrativo Despliegue Dapps Nfts.Storage](#video-demostrativo-despliegue-dapps-nftsstorage)
-    - [IPFS URL](#ipfs-url)
-7. [Sprint 2: Marketplace Memoria Urbana NFT](#sprint-2--marketplace-memoria-urbana-nft)
-8. [¿Cuál es la finalidad / propósito de la DApp?](#cuál-es-la-finalidad--propósito-de-la-dapp)
-    - [Casos de Uso](#casos-de-uso)
-9. [¿Qué variables y funciones contiene el Smart Contract?](#qué-variables-y-funciones-contiene-el-smart-contract)
-    - [Se crean dos contratos](#se-crean-dos-contratos)
-    - [1_deploy_contracts.js SMART CONTRACT](#1_deploy_contractsjs-smart-contract)
-10. [DEPLOY DE CONTRATOS](#deploy-de-contratos)
-    - [MemoriaUrbanaToken](#memoriaurbanatoken)
-    - [MarketPlace](#marketplace)
-11. [¿Qué librería has implementado para la capa de conexión: Web3.js o Ethers.js? ¿Por qué?](#qué-librería-has-implementado-para-la-capa-de-conexión-web3js-o-ethersjs-por-qué)
-
 
 
 ---
 
 # 🌆 Marketplace Memoria Urbana MUTs 🖼️
 ---
-## 📈 ARQUITECURA GENERAL 💡
+## 📈 1.- ARQUITECURA GENERAL 💡
 
 > - MetaMask: _Actúa como puerta de entrada a la Blockchain, permitiendo la gestión de redes, cuentas y transacciones._
 > - Ethereum: _La cadena de bloques principal, junto con Sepolia para pruebas._
@@ -60,21 +28,85 @@
 <img width="400" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTs/assets/27821228/c2207e77-2082-4b7e-bb77-c6cb9e4d743f" style="display: block; margin-left: auto; margin-right: auto;">
 
 
+---
+---
 
-
-## 📈 Despliegue del Producto 💡
+## 📈 2.- DESPLIEGUE DE PRODUCTO 💡
 
 
 Incorpora la automatización de la compilación, implementación y verificación de los Smart Contracts en la red Sepolia.
 
-* ### [Script](https://github.com//jcontrerasd/Proyecto-MUTS/raw/main/deploy_muts.sh/)
+* ## [Script deploy_muts.sh]()
+
+    <details>
+    <summary>deploy_muts.sh ⚙️</summary>
+
+    ```js
+    #!/bin/bash
+
+    declare -a sepolia_links
+
+    # Colores usando tput
+    RED=$(tput setaf 1)
+    GREEN=$(tput setaf 2)
+    YELLOW=$(tput setaf 3)
+    BLUE=$(tput setaf 4)
+    MAGENTA=$(tput setaf 5)
+    CYAN=$(tput setaf 6)
+    RESET=$(tput sgr0)
+
+    echo "${BLUE}"
+    echo "█▓█▓█▓█▓█▓█▓█▓█▓█▓█▓██▓█▓ S E  P O L I A  █▓█▓█▓█▓█▓█▓█▓█▓█▓█▓█▓█"
+    echo "${YELLOW}"
+    echo "█▓█▓█▓█▓█▓█▓█▓█▓█▓█▓█▓ INICIO COMPILACION  █▓█▓█▓█▓█▓█▓█▓█▓█▓█▓█▓"
+    echo "${RESET}"
+    echo " "
+    echo " "
+
+    # Migrar en la red Ethereum sepolia Testnet y capturar la salida
+    truffle migrate --network eth_sepolia_testnet | tee migration_output_sepolia.txt
+
+    # Extraer las direcciones de los contratos para sepolia
+    ADDRESS_MemoriaUrbanaToken_sepolia=$(sed -n '/MemoriaUrbanaToken/,/contract address:/p' migration_output_sepolia.txt | grep 'contract address:' | awk '{print $4}')
+    ADDRESS_Market_Place_sepolia=$(sed -n '/Market_Place/,/contract address:/p' migration_output_sepolia.txt | grep 'contract address:' | awk '{print $4}')
+
+    echo "${GREEN}█▓█▓█▓█▓█▓█▓█▓█▓█▓█▓█▓ FIN COMPILACION  █▓█▓█▓█▓█▓█▓█▓█▓█▓█▓█▓${RESET}"
+    echo " "
+    echo "${MAGENTA}█▓█▓█▓█▓█▓█▓█▓█▓█▓█▓█▓ INICIO VERIFICACION  █▓█▓█▓█▓█▓█▓█▓█▓█▓█▓█▓${RESET}"
+
+    if [ -z "$ADDRESS_MemoriaUrbanaToken_sepolia" ] || [ -z "$ADDRESS_Market_Place_sepolia" ]; then
+        echo "${RED}Error: No se pudo extraer las direcciones para sepolia.${RESET}"
+    else
+        truffle run verify MemoriaUrbanaToken@$ADDRESS_MemoriaUrbanaToken_sepolia --network eth_sepolia_testnet
+        sepolia_links+=("MemoriaUrbanaToken: https://sepolia.etherscan.io/address/$ADDRESS_MemoriaUrbanaToken_sepolia")
+        echo "${CYAN}${sepolia_links[0]}${RESET}"
+        
+        echo " "
+
+        truffle run verify Market_Place@$ADDRESS_Market_Place_sepolia --network eth_sepolia_testnet
+        sepolia_links+=("Market_Place: https://sepolia.etherscan.io/address/$ADDRESS_Market_Place_sepolia")
+        echo "${CYAN}${sepolia_links[1]}${RESET}"
+    fi
+    echo "${GREEN}█▓█▓█▓█▓█▓█▓█▓█▓█▓█▓█▓ FIN VERIFICACION  █▓█▓█▓█▓█▓█▓█▓█▓█▓█▓█▓${RESET}"
+    echo " "
+
+    echo "${YELLOW}█▓█▓█▓█▓█▓█▓█▓█▓█▓█▓██▓█▓ S E  P O L I A  █▓█▓█▓█▓█▓█▓█▓█▓█▓█▓█▓█${RESET}"
+    echo "Enlaces al explorador de bloques sepolia:"
+    for link in "${sepolia_links[@]}"; do
+        echo " "
+        echo "${YELLOW}$link${RESET}"
+        echo " "
+    done
+
+    ```
+    </details>
 
 ## [Compilación/Despliegue/Verificación](https://github.com//jcontrerasd/Proyecto-MUTS/raw/main/0.-Compilación+Despliegue+Verificación[Sepolia].mp4)
 
 <img width="800" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTs/assets/27821228/d24c06be-f4de-4112-9f57-16b430907d2d" style="display: block; margin-left: auto; margin-right: auto;">
 
 
-
+---
 <details>
 <summary>1_deploy_contracts.js SMART CONTRACT ⚙️</summary>
 
@@ -97,24 +129,21 @@ module.exports = function (deployer) {
 > _Es importante tener en cuenta que los Smart Contracts están interconectados, por lo tanto, se requiere una configuración específica para la migración. En esta configuración, la Address del contrato MemoriaUrbanaToken se utiliza para el despliegue del Contrato Market_Place._
 
 ---
-
-
-
 ---
-* ## 1.- 📢 Manejo de eventos (Event/Emit).
+* ## 3.- 📢 Manejo de eventos (Event/Emit).
 
-    ### _EVENT SMART CONTRACT MEMORIAURBANATOKEN.SOL_ 
+    ### _3.1.-  EVENT SMART CONTRACT MEMORIAURBANATOKEN.SOL_ 
 
     <img width="600" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTs/assets/27821228/0a837ac8-f13e-438b-8ee3-1ef29612d9ab"  style="display: block; margin-left: auto; margin-right: auto;">
 
-    ### _EVENT SMART CONTRACT MARKET_PLACE.SOL_
+    ### _3.2.- EVENT SMART CONTRACT MARKET_PLACE.SOL_
    
     <img width="600" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTs/assets/27821228/0bf4ffcb-8014-48f6-80d0-8478ce83a3ed"  style="display: block; margin-left: auto; margin-right: auto;">
 
 ---
-* ## 3.- 🌐 Inclusión de uso IPFS NFT.Storage y Metadatos del NFT.
+* ## 4.- 🌐 Inclusión de uso IPFS NFT.Storage y Metadatos del NFT.
     * ## Beneficio : Persistir los activos (NFT) que se vayan generando en el tiempo.
-    * ## [Video Demostrativo Uso NFT.Storage](https://github.com//jcontrerasd/Proyecto-MUTS/raw/main/3.-Inclusión_de_uso_IPFS_NFT.Storage_y_Metadatos_del_NFT.mp4)
+    * ## [Video Demostrativo Uso NFT.Storage](https://github.com//jcontrerasd/Proyecto-MUTS/raw/main/4.-IPFS_NFT.Storage_y_Metadatos_del_NFT.mp4)
  
       <img width="500" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTS/assets/27821228/6227242b-36ab-4e54-9fac-aa1fa64cb275">
 
