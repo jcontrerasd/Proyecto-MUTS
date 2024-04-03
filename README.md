@@ -1,4 +1,3 @@
-# LEEME
 
 # 🌐 **APLICACIÓN DApp Web3 MUTs** 🚀
 
