@@ -44,36 +44,32 @@
 ## 📈 ARQUITECURA GENERAL 💡
 
 > - MetaMask: _Actúa como puerta de entrada a la Blockchain, permitiendo la gestión de redes, cuentas y transacciones._
-
 > - Ethereum: _La cadena de bloques principal, junto con Sepolia para pruebas._
-
 > - Truffle Suite: _Herramienta para el desarrollo de Smart Contract._
-
-> - React: _Utilizado para crear interfaces de usuario interactivas._
-
 > - OpenZeppelin: _Proporciona librería de Smart Contract seguros y probados._
-
 > - NFT.storage (IPFS): _Garantiza la persistencia descentralizada de archivos, esencial para NFTs.
 
 
-<img width="500" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTS/assets/27821228/4a34c4bc-b4c4-4fff-80ad-e7dfc92a8a04">
+<img width="400" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTS/assets/27821228/4a34c4bc-b4c4-4fff-80ad-e7dfc92a8a04" style="display: block; margin-left: auto; margin-right: auto;">
 
 > - React: _Framework JavaScript para la creación de interfaces de usuario interactivas y dinámicas_
-> - Material UI: _Biblioteca de componentes de interfaz de usuario que facilita el desarrollo y mantiene la consistencia visual.
-> - Three.js: _Biblioteca JavaScript para la creación de gráficos 3D en el navegador web, utilizada para la visualización de NFTs en el metaverso.
-> - Web3.js: _Biblioteca JavaScript para la interacción con la BlockChain Ethereum, permitiendo la conexión con MetaMask y la gestión de NFTs.
+> - Material UI: _Biblioteca de componentes de interfaz de usuario que facilita el desarrollo y mantiene la consistencia visual._
+> - Three.js: _Biblioteca JavaScript para la creación de gráficos 3D en el navegador web, utilizada para la visualización de NFTs en el metaverso._
+> - Web3.js: _Biblioteca JavaScript para la interacción con la BlockChain Ethereum, permitiendo la conexión con MetaMask y la gestión de NFTs._
+
+<img width="400" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTs/assets/27821228/c2207e77-2082-4b7e-bb77-c6cb9e4d743f" style="display: block; margin-left: auto; margin-right: auto;">
 
 
-![alt text](image.png)
 
 
-## 📈 ESCALABILIDAD / INCREMENTOS : Mejoras en el Producto 💡
+## 📈 Despliegue del Producto 💡
 
 
-En esta versión se ha incorporado la automatización de la compilación, implementación y verificación de los Smart Contracts en las redes Goerli y Polygon Mumbai.
+Incorpora la automatización de la compilación, implementación y verificación de los Smart Contracts en la red Sepolia.
 
-* ### [Script](https://github.com//jcontrerasd/Proyecto-MUTS/raw/main/despliegue.sh/)
-## [Compilación/Despliegue/Verificación](https://github.com//jcontrerasd/Proyecto-MUTS/raw/main/0.-Compilación+Despliegue+Verificación[Goerli+Polygon_Mumbai].mp4)
+* ### [Script](https://github.com//jcontrerasd/Proyecto-MUTS/raw/main/deploy_muts.sh/)
+
+## [Compilación/Despliegue/Verificación](https://github.com//jcontrerasd/Proyecto-MUTS/raw/main/0.-Compilación+Despliegue+Verificación[Sepolia].mp4)
 
 <img width="700" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTS/assets/27821228/4f299d24-868c-4d9f-b3fc-74926d97eb7c">
 

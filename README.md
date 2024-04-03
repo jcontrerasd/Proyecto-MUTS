@@ -23,7 +23,8 @@
 
 <img width="500" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTS/assets/27821228/4a34c4bc-b4c4-4fff-80ad-e7dfc92a8a04">
 
-
+![alt text](image-2.png)
+ 
 
 
 
