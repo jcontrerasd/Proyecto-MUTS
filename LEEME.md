@@ -99,26 +99,17 @@ module.exports = function (deployer) {
 ---
 
 
-* ## 1.- 🔄 Switch entre redes Goerli y Polygon Mumbai (Layer 2).
-     * ## Beneficio : Busca escalar en rendimiento y costo.
-     * ## [Video Demostrativo Switch ](https://github.com//jcontrerasd/Proyecto-MUTS/raw/main/1.-Switch_entre_redes_Goerli_y_Polygon_Mumbai_(Layer_2).mp4)
-       <img width="600" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTS/assets/27821228/af1c0eed-ebe8-4d62-bb4d-36ec1bb949b0">
 
 ---
-* ## 2.- 📢 Manejo de eventos (Event/Emit).
-    * ## Beneficio : Tener un control de cada acción de los contratos.
-    * ## [Video Demostrativo Lectura de Eventos ](https://github.com//jcontrerasd/Proyecto-MUTS/raw/main/2.-Manejo_de_eventos(Event_Emit).mp4)
-
-     >  IMPORTANTE : La lectura de los event de Polygon Mumbai presenta problemas al utiliza https://rpc-mumbai.maticvigil.com/, por lo que se tuvo que cambiar el RPC a 
-          https://polygon-mumbai.infura.io/v3/[API_KEY] (Cambiar en App.js linea 266).
+* ## 1.- 📢 Manejo de eventos (Event/Emit).
 
     ### _EVENT SMART CONTRACT MEMORIAURBANATOKEN.SOL_ 
-    <img width="600" margin=200 alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTS/assets/27821228/a6be5e86-8adf-4608-846a-86528c05d775">
-      
-    ### _EVENT SMART CONTRACT MARKET_PLACE.SOL_
-    <img width="600" margin=200 alt="image"  src="https://github.com/jcontrerasd/Proyecto-MUTS/assets/27821228/edba78d1-c4e9-4327-866c-c0c386e010c7">
 
-    <img width="400" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTS/assets/27821228/a19e89fb-02b4-4788-8b6a-3782396cb128">
+    <img width="600" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTs/assets/27821228/0a837ac8-f13e-438b-8ee3-1ef29612d9ab"  style="display: block; margin-left: auto; margin-right: auto;">
+
+    ### _EVENT SMART CONTRACT MARKET_PLACE.SOL_
+   
+    <img width="600" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTs/assets/27821228/0bf4ffcb-8014-48f6-80d0-8478ce83a3ed"  style="display: block; margin-left: auto; margin-right: auto;">
 
 ---
 * ## 3.- 🌐 Inclusión de uso IPFS NFT.Storage y Metadatos del NFT.
