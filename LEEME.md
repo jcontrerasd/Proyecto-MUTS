@@ -19,14 +19,13 @@
   - [6.1.- MemoriaUrbanToken](#61--memoriaurbantoken)
     - [6.1.1.- Read Contract](#611--read-contract)
     - [6.1.2.- Write Contract](#612--write-contract)
-  - [6.2.- Marketplace](#62--marketplacecontract)
+  - [6.2.- Marketplace](#62--marketplace)
     - [6.2.1.- Read Contract](#621--read-contract)
     - [6.2.2.- Write Contract](#622--write-contract)
 
 
-
 ---
-## 📈 1.- ARQUITECTURA GENERAL 💡
+## 1.- ARQUITECTURA GENERAL
 ---
 > - **MetaMask:** _Actúa como puerta de entrada a la Blockchain, permitiendo la gestión de redes, cuentas y transacciones._
 > - **Ethereum:** _La cadena de bloques principal, junto con Sepolia para pruebas._
@@ -47,7 +46,7 @@
 
 ---
 
-## 📈 2.- DESPLIEGUE DE PRODUCTO 💡
+## 2.- DESPLIEGUE DE PRODUCTO
 ---
 
 Incorpora la automatización de la compilación, implementación y verificación de los Smart Contracts en la red Sepolia.
@@ -118,7 +117,7 @@ done
 </details>
 
 ### 2.2.- Compilación/Despliegue/Verificación
-### [Compilación/Despliegue/Verificación](https://github.com//jcontrerasd/Proyecto-MUTS/raw/main/0.-Compilación+Despliegue+Verificación[Sepolia].mp4)
+### 🎥 [Compilación/Despliegue/Verificación](https://github.com//jcontrerasd/Proyecto-MUTS/raw/main/0.-Compilación+Despliegue+Verificación[Sepolia].mp4)
 
 <img width="800" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTs/assets/27821228/d24c06be-f4de-4112-9f57-16b430907d2d" style="display: block; margin-left: auto; margin-right: auto;">
 
@@ -146,10 +145,11 @@ module.exports = function (deployer) {
 > _Es importante tener en cuenta que los Smart Contracts están interconectados, por lo tanto, se requiere una configuración específica para la migración. En esta configuración, la Address del contrato MemoriaUrbanaToken se utiliza para el despliegue del Contrato Market_Place._
 
 ---
-## 3.-  MANEJO DE EVENTOS (Event/Emit).
+## 3.- MANEJO DE EVENTOS (Event/Emit)
+
 ---
 
-### 3.1.-  EVENT SMART CONTRACT MEMORIAURBANATOKEN.SOL
+### 3.1.- EVENT SMART CONTRACT MEMORIAURBANATOKEN.SOL
 <img width="600" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTs/assets/27821228/0a837ac8-f13e-438b-8ee3-1ef29612d9ab"  style="display: block; margin-left: auto; margin-right: auto;">
 
 
@@ -157,7 +157,7 @@ module.exports = function (deployer) {
 <img width="600" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTs/assets/27821228/0bf4ffcb-8014-48f6-80d0-8478ce83a3ed" style="display: block; margin-left: auto; margin-right: auto;">
 
 ---
-## 4.- 🌐 USO DE IPFS NFT.Storage y METADATOS del NFT.
+## 4.- USO DE IPFS NFT.Storage y METADATOS del NFT.
 ---
 * ## Beneficio : Persistir los activos (NFT) que se vayan generando en el tiempo.
 * ## 📽️ [Video Demostrativo Uso NFT.Storage](https://github.com//jcontrerasd/Proyecto-MUTS/raw/main/4.-IPFS_NFT.Storage_y_Metadatos_del_NFT.mp4)
@@ -165,7 +165,8 @@ module.exports = function (deployer) {
     <img width="500" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTS/assets/27821228/6227242b-36ab-4e54-9fac-aa1fa64cb275" style="display: block; margin-left: auto; margin-right: auto;">
 
 ---
-## 5.- 📦 DESPLIGUE DE DApp EN IPFS USANDO NFT.Storage (❌❌❌ACTUALIZAR VIDEO Y LINK CON LA NUEVA INTERFAZ❌❌❌❌)
+## 5.- DESPLIGUE DE DApp EN IPFS USANDO NFT.Storage
+(❌❌❌ACTUALIZAR VIDEO Y LINK CON LA NUEVA INTERFAZ❌❌❌❌)
 ---
 * ## Beneficio : Aumentar la tolerancia a fallos y la resiliencia en general.
 * ## 📽️ [Video Demostrativo Despliegue Dapps Nfts.Storage](https://github.com//jcontrerasd/Proyecto-MUTS/raw/main/4.-Despliegue_de_Dapps_en_IPFS_usando_NFT.Storage.mp4)
@@ -174,7 +175,7 @@ module.exports = function (deployer) {
     <img width="500" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTS/assets/27821228/5b894d90-8ef9-4f06-ace0-38d1b67ff54b" style="display: block; margin-left: auto; margin-right: auto;">
 
 ---
-## 6.- 🔖 SMART CONTRACTS
+## 6.- SMART CONTRACTS
 ---
 
 ### 6.1.- MemoriaUrbanToken 
