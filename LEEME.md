@@ -43,7 +43,7 @@
 
 <img width="400" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTs/assets/27821228/c2207e77-2082-4b7e-bb77-c6cb9e4d743f" style="display: block; margin-left: auto; margin-right: auto;">
 
-
+## [⇪](#índice)
 ---
 
 ## 2.- DESPLIEGUE DE PRODUCTO
@@ -143,7 +143,7 @@ module.exports = function (deployer) {
 </details>
 
 > _Es importante tener en cuenta que los Smart Contracts están interconectados, por lo tanto, se requiere una configuración específica para la migración. En esta configuración, la Address del contrato MemoriaUrbanaToken se utiliza para el despliegue del Contrato Market_Place._
-
+## [⇪](#índice)
 ---
 ## 3.- MANEJO DE EVENTOS (Event/Emit)
 
@@ -156,6 +156,8 @@ module.exports = function (deployer) {
 ### 3.2.- EVENT SMART CONTRACT MARKET_PLACE.SOL
 <img width="600" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTs/assets/27821228/0bf4ffcb-8014-48f6-80d0-8478ce83a3ed" style="display: block; margin-left: auto; margin-right: auto;">
 
+## [⇪](#índice)
+
 ---
 ## 4.- USO DE IPFS NFT.Storage y METADATOS del NFT.
 ---
@@ -163,6 +165,8 @@ module.exports = function (deployer) {
 * ## 📽️ [Video Demostrativo Uso NFT.Storage](https://github.com//jcontrerasd/Proyecto-MUTS/raw/main/4.-IPFS_NFT.Storage_y_Metadatos_del_NFT.mp4)
 
     <img width="500" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTS/assets/27821228/6227242b-36ab-4e54-9fac-aa1fa64cb275" style="display: block; margin-left: auto; margin-right: auto;">
+
+## [⇪](#índice)
 
 ---
 ## 5.- DESPLIGUE DE DApp EN IPFS USANDO NFT.Storage
@@ -174,6 +178,7 @@ module.exports = function (deployer) {
 
     <img width="500" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTS/assets/27821228/5b894d90-8ef9-4f06-ace0-38d1b67ff54b" style="display: block; margin-left: auto; margin-right: auto;">
 
+## [⇪](#índice)
 ---
 ## 6.- SMART CONTRACTS
 ---
@@ -224,6 +229,8 @@ El contrato crea un token ERC721 llamado MemT (MUT). El contrato puede ser utili
 > **5.safeTransferFrom() (OpenZeppelin) :** _Transfiere un token de una dirección a otra de forma segura. 
                                                 Verifica que el receptor tenga suficiente saldo y que el remitente esté autorizado para transferir el token._
 
+## [⇪](#índice)
+
 ### 6.2.- Marketplace
 #### (Address [0xf290c169C0184adb2cCc5BAC23cf91Ff72cDdE30](https://sepolia.etherscan.io/address/0xf290c169C0184adb2cCc5BAC23cf91Ff72cDdE30))
 Corresponde a un MarketPlace que permite a los usuarios comprar y vender tokens ERC721. En resumen permite comprar y vender tokens ERC721.
@@ -261,4 +268,4 @@ Corresponde a un MarketPlace que permite a los usuarios comprar y vender tokens 
 
 > **9. unsetSale:** _Elimina un NFT ERC721 de la venta en el mercado, permitiendo al propietario eliminarlo en cualquier momento._
 
-
+## [⇪](#índice)
