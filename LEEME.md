@@ -1,5 +1,7 @@
 
 # 🌐 **APLICACIÓN DApp Web3 MUTs** 🚀
+
+# 🌆 Marketplace Memoria Urbana MUTs 🖼️
 ---
 
 # Índice
@@ -7,8 +9,7 @@
 - [1.- ARQUITECTURA GENERAL](#1--arquitectura-general)
 - [2.- DESPLIEGUE DE PRODUCTO](#2--despliegue-de-producto)
   - [2.1.- Script deploy_muts.sh](#21--script-deploy_mutssh)
-  - [Compilación/Despliegue/Verificación](#compilacióndespliegueverificación)
-  - [1_deploy_contracts.js SMART CONTRACT](#1_deploy_contractssmart-contract)
+  - [2.2.- Compilación/Despliegue/Verificación](#22--compilacióndespliegueverificación)
 - [3.- MANEJO DE EVENTOS (Event/Emit)](#3--manejo-de-eventos-eventemit)
   - [3.1.- EVENT SMART CONTRACT MEMORIAURBANATOKEN.SOL](#31--event-smart-contract-memoriaurbanatokensol)
   - [3.2.- EVENT SMART CONTRACT MARKET_PLACE.SOL](#32--event-smart-contract-market_placesol)
@@ -18,16 +19,14 @@
   - [6.1.- MemoriaUrbanToken](#61--memoriaurbantoken)
     - [6.1.1.- Read Contract](#611--read-contract)
     - [6.1.2.- Write Contract](#612--write-contract)
-  - [6.2.- MarketplaceContract](#62--marketplacecontract)
+  - [6.2.- Marketplace](#62--marketplacecontract)
     - [6.2.1.- Read Contract](#621--read-contract)
     - [6.2.2.- Write Contract](#622--write-contract)
 
 
----
 
-# 🌆 Marketplace Memoria Urbana MUTs 🖼️
 ---
-## 📈 1.- ARQUITECURA GENERAL 💡
+## 📈 1.- ARQUITECTURA GENERAL 💡
 ---
 > - **MetaMask:** _Actúa como puerta de entrada a la Blockchain, permitiendo la gestión de redes, cuentas y transacciones._
 > - **Ethereum:** _La cadena de bloques principal, junto con Sepolia para pruebas._
@@ -118,7 +117,8 @@ done
 ```
 </details>
 
-### 2.2.- 📽️ [Compilación/Despliegue/Verificación](https://github.com//jcontrerasd/Proyecto-MUTS/raw/main/0.-Compilación+Despliegue+Verificación[Sepolia].mp4)
+### 2.2.- Compilación/Despliegue/Verificación
+### [Compilación/Despliegue/Verificación](https://github.com//jcontrerasd/Proyecto-MUTS/raw/main/0.-Compilación+Despliegue+Verificación[Sepolia].mp4)
 
 <img width="800" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTs/assets/27821228/d24c06be-f4de-4112-9f57-16b430907d2d" style="display: block; margin-left: auto; margin-right: auto;">
 
@@ -146,17 +146,14 @@ module.exports = function (deployer) {
 > _Es importante tener en cuenta que los Smart Contracts están interconectados, por lo tanto, se requiere una configuración específica para la migración. En esta configuración, la Address del contrato MemoriaUrbanaToken se utiliza para el despliegue del Contrato Market_Place._
 
 ---
-
-## 📢 3.-  MANEJO DE EVENTOS (Event/Emit).
-
+## 3.-  MANEJO DE EVENTOS (Event/Emit).
 ---
-### 3.1.-  EVENT SMART CONTRACT MEMORIAURBANATOKEN.SOL
 
+### 3.1.-  EVENT SMART CONTRACT MEMORIAURBANATOKEN.SOL
 <img width="600" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTs/assets/27821228/0a837ac8-f13e-438b-8ee3-1ef29612d9ab"  style="display: block; margin-left: auto; margin-right: auto;">
 
 
 ### 3.2.- EVENT SMART CONTRACT MARKET_PLACE.SOL
-
 <img width="600" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTs/assets/27821228/0bf4ffcb-8014-48f6-80d0-8478ce83a3ed" style="display: block; margin-left: auto; margin-right: auto;">
 
 ---
@@ -212,7 +209,7 @@ El contrato crea un token ERC721 llamado MemT (MUT). El contrato puede ser utili
 **5.safeTransferFrom() (OpenZeppelin) :** _Transfiere un token de una dirección a otra de forma segura. 
                                                 Verifica que el receptor tenga suficiente saldo y que el remitente esté autorizado para transferir el token._
 
-### 6.2.- MarketplaceContract 
+### 6.2.- Marketplace
 #### (Address [0xf290c169C0184adb2cCc5BAC23cf91Ff72cDdE30](https://sepolia.etherscan.io/address/0xf290c169C0184adb2cCc5BAC23cf91Ff72cDdE30))
 Corresponde a un MarketPlace que permite a los usuarios comprar y vender tokens ERC721. En resumen permite comprar y vender tokens ERC721.
 
