@@ -191,7 +191,7 @@ El contrato crea un token ERC721 llamado MemT (MUT). El contrato puede ser utili
 
 > **3. isApprovedForAll :** _Devuelve si una dirección está autorizada para transferir todos los tokens en nombre de otra dirección._
 
-> **4. name :** _Devuelve el nombre del token.
+> **4. name :** _Devuelve el nombre del token._
 
 > **5. ownerOf :** _Devuelve la dirección del propietario de un token._
 
@@ -204,18 +204,24 @@ El contrato crea un token ERC721 llamado MemT (MUT). El contrato puede ser utili
 
 #### 6.1.2.- Write Contract
 
-**1. approve :** _Autoriza a una dirección para transferir un token en nombre de otra dirección._
-**2. approveToMarketplace :** _Autoriza a un mercado para transferir un token en nombre de un usuario.
-**3. awardItem :** _Crea un nuevo token y lo asigna a una dirección especificada._
-**4. safeTransferFrom :** _Transfiere un token de una dirección a otra de forma segura, verificando que la transferencia es válida y que el receptor tiene suficiente saldo._
-**5. safeTransferFrom :** _Transfiere un token de una dirección a otra de forma segura, verificando que la transferencia es válida y que el receptor tiene suficiente saldo._
-**6. setApprovalForAll :** _Autoriza a una dirección para transferir todos los tokens en nombre de otra dirección._
-**7.transferFrom :** _Transfiere un token de una dirección a otra._
+> **1. approve :** _Autoriza a una dirección para transferir un token en nombre de otra dirección._
+
+> **2. approveToMarketplace :** _Autoriza a un mercado para transferir un token en nombre de un usuario.
+
+> **3. awardItem :** _Crea un nuevo token y lo asigna a una dirección especificada._
+
+> **4. safeTransferFrom :** _Transfiere un token de una dirección a otra de forma segura, verificando que la transferencia es válida y que el receptor tiene suficiente saldo._
+
+> **5. safeTransferFrom :** _Transfiere un token de una dirección a otra de forma segura, verificando que la transferencia es válida y que el receptor tiene suficiente saldo._
+
+> **6. setApprovalForAll :** _Autoriza a una dirección para transferir todos los tokens en nombre de otra dirección._
+
+> **7.transferFrom :** _Transfiere un token de una dirección a otra._
 
 #### ⚠️ IMPORTANTE 
 
-**4.safeTransferFrom() (ERC721) :** _Transfiere un token de una dirección a otra. No verifica que el receptor tenga suficiente saldo._
-**5.safeTransferFrom() (OpenZeppelin) :** _Transfiere un token de una dirección a otra de forma segura. 
+> **4.safeTransferFrom() (ERC721) :** _Transfiere un token de una dirección a otra. No verifica que el receptor tenga suficiente saldo._
+> **5.safeTransferFrom() (OpenZeppelin) :** _Transfiere un token de una dirección a otra de forma segura. 
                                                 Verifica que el receptor tenga suficiente saldo y que el remitente esté autorizado para transferir el token._
 
 ### 6.2.- Marketplace
@@ -225,26 +231,34 @@ Corresponde a un MarketPlace que permite a los usuarios comprar y vender tokens 
 
 #### 6.2.1.- Read Contract 
 
-**1. itemsForSale:** _Variable de estado que cuenta el número de NFTs en venta._
-**2. balanceOf:** _Devuelve la cantidad de un token que posee una dirección._
-**3. balanceOfBatch:** _Devuelve la cantidad de un token que poseen varias direcciones._
-**4. getPrice:** _Devuelve el precio de un NFT en wei._
-**5. isApprovedForAll:** Devuelve si una dirección está aprobada para transferir tokens en nombre de otra dirección._
-**6. marketplaceOwner:** _Dirección del propietario del contrato Market_Place._
-**7. supportsInterface:** _Devuelve si un contrato implementa una interfaz ERC721._
-**8. uri:** _Devuelve la URI de un NFT._
+> **1. itemsForSale:** _Variable de estado que cuenta el número de NFTs en venta._
+> **2. balanceOf:** _Devuelve la cantidad de un token que posee una dirección._
+> **3. balanceOfBatch:** _Devuelve la cantidad de un token que poseen varias direcciones._
+> **4. getPrice:** _Devuelve el precio de un NFT en wei._
+> **5. isApprovedForAll:** Devuelve si una dirección está aprobada para transferir tokens en nombre de otra dirección._
+> **6. marketplaceOwner:** _Dirección del propietario del contrato Market_Place._
+> **7. supportsInterface:** _Devuelve si un contrato implementa una interfaz ERC721._
+> **8. uri:** _Devuelve la URI de un NFT._
 
 
 #### 6.2.2.- Write Contract 
 
-**1. acceptCommission:** _Permite al propietario del NFT aceptar o rechazar la comisión propuesta. Si se acepta la comisión, el NFT se pone a la venta automáticamente. Si se rechaza, la comisión pendiente se elimina._
-**2. buyToken:** _Compra un NFT ERC721 del mercado, pagando el precio especificado por el vendedor. Ahora, cuando se compra un NFT, se calcula la comisión (2.5% del precio de venta) y se descuenta del monto que recibe el vendedor. La comisión se transfiere al propietario del mercado (marketplaceOwner)._
-**3. onERC721Received:** _Recibe un NFT ERC721 en el contrato, verificando que el remitente está autorizado para transferirlo._
-**4. proposeCommission:** _Permite al propietario de un NFT proponer una comisión al vendedor antes de poner el NFT a la venta. La comisión se calcula como un porcentaje del precio de venta (en este caso, el 2.5%)._
-**5. safeBatchTransferFrom:** _Transfiere un lote de tokens ERC1155 de una dirección a otra de forma segura, verificando que la transferencia es válida y que el receptor tiene suficiente saldo._
-**6. safeTransferFrom:** _Transfiere un token ERC721 de una dirección a otra de forma segura, verificando que la transferencia es válida y que el receptor tiene suficiente saldo._
-**7. setApprovalForAll:** _Aprueba a una dirección para transferir todos los tokens ERC721 en nombre de otra dirección, otorgando permiso a un mercado para vender los tokens ERC721 de un usuario._
-**8. setSale:** _Pone un NFT ERC721 a la venta en el mercado, especificando el precio al que se quiere vender. Ahora, antes de poner un NFT a la venta, se debe proponer y aceptar una comisión._
-**9. unsetSale:** _Elimina un NFT ERC721 de la venta en el mercado, permitiendo al propietario eliminarlo en cualquier momento._
+> **1. acceptCommission:** _Permite al propietario del NFT aceptar o rechazar la comisión propuesta. Si se acepta la comisión, el NFT se pone a la venta automáticamente. Si se rechaza, la comisión pendiente se elimina._
+
+> **2. buyToken:** _Compra un NFT ERC721 del mercado, pagando el precio especificado por el vendedor. Ahora, cuando se compra un NFT, se calcula la comisión (2.5% del precio de venta) y se descuenta del monto que recibe el vendedor. La comisión se transfiere al propietario del mercado (marketplaceOwner)._
+
+> **3. onERC721Received:** _Recibe un NFT ERC721 en el contrato, verificando que el remitente está autorizado para transferirlo._
+
+> **4. proposeCommission:** _Permite al propietario de un NFT proponer una comisión al vendedor antes de poner el NFT a la venta. La comisión se calcula como un porcentaje del precio de venta (en este caso, el 2.5%)._
+
+> **5. safeBatchTransferFrom:** _Transfiere un lote de tokens ERC1155 de una dirección a otra de forma segura, verificando que la transferencia es válida y que el receptor tiene suficiente saldo._
+
+> **6. safeTransferFrom:** _Transfiere un token ERC721 de una dirección a otra de forma segura, verificando que la transferencia es válida y que el receptor tiene suficiente saldo._
+
+> **7. setApprovalForAll:** _Aprueba a una dirección para transferir todos los tokens ERC721 en nombre de otra dirección, otorgando permiso a un mercado para vender los tokens ERC721 de un usuario._
+
+> **8. setSale:** _Pone un NFT ERC721 a la venta en el mercado, especificando el precio al que se quiere vender. Ahora, antes de poner un NFT a la venta, se debe proponer y aceptar una comisión._
+
+> **9. unsetSale:** _Elimina un NFT ERC721 de la venta en el mercado, permitiendo al propietario eliminarlo en cualquier momento._
 
 
