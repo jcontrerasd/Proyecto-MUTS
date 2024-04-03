@@ -3,7 +3,31 @@
 ---
 # Índice
 
+# Índice
 
+1. [Marketplace Memoria Urbana MUTs](#-marketplace-memoria-urbana-muts-)
+   1. [ARQUITECURA GENERAL](#-1--arquitecura-general-)
+   2. [DESPLIEGUE DE PRODUCTO](#-2--despliegue-de-producto-)
+      - [Script deploy_muts.sh](#21--script-deploymutsh)
+      - [Compilación/Despliegue/Verificación](#-compilacióndespliegue
+      - [1_deploy_contracts.js SMART CONTRACT](#1deploycontractsjs-smart-contract-)
+   3. [Manejo de eventos (Event/Emit)](#-3---manejo-de-eventos-eventemit)
+      - [EVENT SMART CONTRACT MEMORIAURBANATOKEN.SOL](#31---event-smart-contract-memoriaurbanatoken
+      - [EVENT SMART CONTRACT MARKET_PLACE.SOL](#32--event-smart-contract-marketplacesol)
+   4. [Inclusión de uso IPFS NFT.Storage y Metadatos del NFT](#4---inclusión-de-uso-ipfs-nftstorage-y-metadatos-del-nft)
+      - [Beneficio : Persistir los activos (NFT) que se vayan generando en el tiempo.](#beneficio--persistir-los-activos-nft-que-se-vayan-generando-en-el-tiempo)
+      - [Video Demostrativo Uso NFT.Storage](#-video-demostrativo-uso-nftstorage)
+   5. [Despliegue de Dapps en IPFS usando NFT.Storage (ACTUALIZAR VIDEO Y LINK CON LA NUEVA INTERFAZ)](#5---despliegue-de-dapps-en-ipfs-usando-nftstorage-actualizar-video-y-link-con-la-nueva-interfaz)
+      - [Beneficio : Aumentar la tolerancia a fallos y la resiliencia en general.](#beneficio--aumentar-la-tolerancia-a-fallos-y-la-resiliencia-en-general)
+      - [Video Demostrativo Despliegue Dapps Nfts.Storage](#-video-demostrativo-despliegue-dapps-nftsstorage)
+   6. [SMART CONTRACTS](#6---smart-contracts)
+      - [6.1.- MemoriaUrbanToken](#61--memoriaurbantoken)
+         - [6.1.1.- Read Contract](#611--read-contract)
+         - [6.1.2.- Write Contract](#612--write-contract)
+         - [IMPORTANTE](#-importante)
+      - [6.2.- MarketplaceContract](#62--marketplacecontract)
+         - [6.2.1.- Read Contract](#621--read-contract)
+         - [6.2.2.- Write Contract](#622--write-contract)
 
 ---
 
@@ -132,12 +156,12 @@ module.exports = function (deployer) {
 ## 📢 3.-  Manejo de eventos (Event/Emit).
 
 ---
-### 3.1.-  EVENT SMART CONTRACT MEMORIAURBANATOKEN.SOL_ 
+### 3.1.-  EVENT SMART CONTRACT MEMORIAURBANATOKEN.SOL
 
 <img width="600" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTs/assets/27821228/0a837ac8-f13e-438b-8ee3-1ef29612d9ab"  style="display: block; margin-left: auto; margin-right: auto;">
 
 
-### 3.2.- EVENT SMART CONTRACT MARKET_PLACE.SOL_
+### 3.2.- EVENT SMART CONTRACT MARKET_PLACE.SOL
 
 <img width="600" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTs/assets/27821228/0bf4ffcb-8014-48f6-80d0-8478ce83a3ed" style="display: block; margin-left: auto; margin-right: auto;">
 
