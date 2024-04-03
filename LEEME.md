@@ -1,33 +1,27 @@
 
 # 🌐 **APLICACIÓN DApp Web3 MUTs** 🚀
 ---
-# Índice
 
 # Índice
 
-1. [Marketplace Memoria Urbana MUTs](#-marketplace-memoria-urbana-muts-)
-   1. [ARQUITECURA GENERAL](#-1--arquitecura-general-)
-   2. [DESPLIEGUE DE PRODUCTO](#-2--despliegue-de-producto-)
-      - [Script deploy_muts.sh](#21--script-deploymutsh)
-      - [Compilación/Despliegue/Verificación](#-compilacióndespliegue
-      - [1_deploy_contracts.js SMART CONTRACT](#1deploycontractsjs-smart-contract-)
-   3. [Manejo de eventos (Event/Emit)](#-3---manejo-de-eventos-eventemit)
-      - [EVENT SMART CONTRACT MEMORIAURBANATOKEN.SOL](#31---event-smart-contract-memoriaurbanatoken
-      - [EVENT SMART CONTRACT MARKET_PLACE.SOL](#32--event-smart-contract-marketplacesol)
-   4. [Inclusión de uso IPFS NFT.Storage y Metadatos del NFT](#4---inclusión-de-uso-ipfs-nftstorage-y-metadatos-del-nft)
-      - [Beneficio : Persistir los activos (NFT) que se vayan generando en el tiempo.](#beneficio--persistir-los-activos-nft-que-se-vayan-generando-en-el-tiempo)
-      - [Video Demostrativo Uso NFT.Storage](#-video-demostrativo-uso-nftstorage)
-   5. [Despliegue de Dapps en IPFS usando NFT.Storage (ACTUALIZAR VIDEO Y LINK CON LA NUEVA INTERFAZ)](#5---despliegue-de-dapps-en-ipfs-usando-nftstorage-actualizar-video-y-link-con-la-nueva-interfaz)
-      - [Beneficio : Aumentar la tolerancia a fallos y la resiliencia en general.](#beneficio--aumentar-la-tolerancia-a-fallos-y-la-resiliencia-en-general)
-      - [Video Demostrativo Despliegue Dapps Nfts.Storage](#-video-demostrativo-despliegue-dapps-nftsstorage)
-   6. [SMART CONTRACTS](#6---smart-contracts)
-      - [6.1.- MemoriaUrbanToken](#61--memoriaurbantoken)
-         - [6.1.1.- Read Contract](#611--read-contract)
-         - [6.1.2.- Write Contract](#612--write-contract)
-         - [IMPORTANTE](#-importante)
-      - [6.2.- MarketplaceContract](#62--marketplacecontract)
-         - [6.2.1.- Read Contract](#621--read-contract)
-         - [6.2.2.- Write Contract](#622--write-contract)
+- [1.- ARQUITECTURA GENERAL](#1--arquitectura-general)
+- [2.- DESPLIEGUE DE PRODUCTO](#2--despliegue-de-producto)
+  - [2.1.- Script deploy_muts.sh](#21--script-deploy_mutssh)
+  - [Compilación/Despliegue/Verificación](#compilacióndespliegueverificación)
+  - [1_deploy_contracts.js SMART CONTRACT](#1_deploy_contractssmart-contract)
+- [3.- MANEJO DE EVENTOS (Event/Emit)](#3--manejo-de-eventos-eventemit)
+  - [3.1.- EVENT SMART CONTRACT MEMORIAURBANATOKEN.SOL](#31--event-smart-contract-memoriaurbanatokensol)
+  - [3.2.- EVENT SMART CONTRACT MARKET_PLACE.SOL](#32--event-smart-contract-market_placesol)
+- [4.- USO DE IPFS NFT.Storage y METADATOS del NFT](#4--uso-de-ipfs-nftstorage-y-metadatos-del-nft)
+- [5.- DESPLIGUE DE DApp EN IPFS USANDO NFT.Storage](#5--despligue-de-dapp-en-ipfs-usando-nftstorage)
+- [6.- SMART CONTRACTS](#6--smart-contracts)
+  - [6.1.- MemoriaUrbanToken](#61--memoriaurbantoken)
+    - [6.1.1.- Read Contract](#611--read-contract)
+    - [6.1.2.- Write Contract](#612--write-contract)
+  - [6.2.- MarketplaceContract](#62--marketplacecontract)
+    - [6.2.1.- Read Contract](#621--read-contract)
+    - [6.2.2.- Write Contract](#622--write-contract)
+
 
 ---
 
@@ -124,7 +118,7 @@ done
 ```
 </details>
 
-## 📽️ [Compilación/Despliegue/Verificación](https://github.com//jcontrerasd/Proyecto-MUTS/raw/main/0.-Compilación+Despliegue+Verificación[Sepolia].mp4)
+### 2.2.- 📽️ [Compilación/Despliegue/Verificación](https://github.com//jcontrerasd/Proyecto-MUTS/raw/main/0.-Compilación+Despliegue+Verificación[Sepolia].mp4)
 
 <img width="800" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTs/assets/27821228/d24c06be-f4de-4112-9f57-16b430907d2d" style="display: block; margin-left: auto; margin-right: auto;">
 
@@ -153,7 +147,7 @@ module.exports = function (deployer) {
 
 ---
 
-## 📢 3.-  Manejo de eventos (Event/Emit).
+## 📢 3.-  MANEJO DE EVENTOS (Event/Emit).
 
 ---
 ### 3.1.-  EVENT SMART CONTRACT MEMORIAURBANATOKEN.SOL
@@ -166,7 +160,7 @@ module.exports = function (deployer) {
 <img width="600" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTs/assets/27821228/0bf4ffcb-8014-48f6-80d0-8478ce83a3ed" style="display: block; margin-left: auto; margin-right: auto;">
 
 ---
-## 4.- 🌐 Inclusión de uso IPFS NFT.Storage y Metadatos del NFT.
+## 4.- 🌐 USO DE IPFS NFT.Storage y METADATOS del NFT.
 ---
 * ## Beneficio : Persistir los activos (NFT) que se vayan generando en el tiempo.
 * ## 📽️ [Video Demostrativo Uso NFT.Storage](https://github.com//jcontrerasd/Proyecto-MUTS/raw/main/4.-IPFS_NFT.Storage_y_Metadatos_del_NFT.mp4)
@@ -174,7 +168,7 @@ module.exports = function (deployer) {
     <img width="500" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTS/assets/27821228/6227242b-36ab-4e54-9fac-aa1fa64cb275" style="display: block; margin-left: auto; margin-right: auto;">
 
 ---
-## 5.- 📦 Despliegue de Dapps en IPFS usando NFT.Storage (❌❌❌ACTUALIZAR VIDEO Y LINK CON LA NUEVA INTERFAZ❌❌❌❌)
+## 5.- 📦 DESPLIGUE DE DApp EN IPFS USANDO NFT.Storage (❌❌❌ACTUALIZAR VIDEO Y LINK CON LA NUEVA INTERFAZ❌❌❌❌)
 ---
 * ## Beneficio : Aumentar la tolerancia a fallos y la resiliencia en general.
 * ## 📽️ [Video Demostrativo Despliegue Dapps Nfts.Storage](https://github.com//jcontrerasd/Proyecto-MUTS/raw/main/4.-Despliegue_de_Dapps_en_IPFS_usando_NFT.Storage.mp4)
