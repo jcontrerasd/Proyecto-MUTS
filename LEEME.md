@@ -185,14 +185,14 @@ El contrato crea un token ERC721 llamado MemT (MUT). El contrato puede ser utili
 
 #### 6.1.1.- Read Contract
 
-**1. balanceOf :** _Devuelve la cantidad de un token que posee una dirección._
-**2. getApproved :** _Devuelve la dirección que está autorizada para transferir un token en nombre de otra dirección._
-**3. isApprovedForAll :** _Devuelve si una dirección está autorizada para transferir todos los tokens en nombre de otra dirección._
-**4. name :** _Devuelve el nombre del token.
-**5. ownerOf :** _Devuelve la dirección del propietario de un token._
-**6. supportsInterface :** _Devuelve si un contrato implementa una interfaz._
-**7. symbol :** _Devuelve el símbolo del token._
-**8. tokenURI :** _Devuelve la URI del token._
+> **1. balanceOf :** _Devuelve la cantidad de un token que posee una dirección._
+> **2. getApproved :** _Devuelve la dirección que está autorizada para transferir un token en nombre de otra dirección._
+> **3. isApprovedForAll :** _Devuelve si una dirección está autorizada para transferir todos los tokens en nombre de otra dirección._
+> **4. name :** _Devuelve el nombre del token.
+> **5. ownerOf :** _Devuelve la dirección del propietario de un token._
+> **6. supportsInterface :** _Devuelve si un contrato implementa una interfaz._
+> **7. symbol :** _Devuelve el símbolo del token._
+> **8. tokenURI :** _Devuelve la URI del token._
 
 #### 6.1.2.- Write Contract
 
