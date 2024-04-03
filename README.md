@@ -7,7 +7,7 @@
 
 
 ---
-> 💻 _[Github Proyecto-MUTs](https://github.com/jcontrerasd/Proyecto-MUTs/blob/main/README.md)_
+> 💻 [Github Proyecto-MUTs](https://github.com/jcontrerasd/Proyecto-MUTs/blob/main/README.md)
 ---
 
 # Índice
