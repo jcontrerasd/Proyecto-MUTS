@@ -7,7 +7,7 @@
 
 
 ---
-> 💻 [Github Proyecto-MUTs](https://github.com/jcontrerasd/Proyecto-MUTs)
+# 🔗 [Github Proyecto-MUTs](https://github.com/jcontrerasd/Proyecto-MUTs)
 ---
 
 # Índice
@@ -20,14 +20,13 @@
   - [3.1.- EVENT SMART CONTRACT MEMORIAURBANATOKEN.SOL](#31--event-smart-contract-memoriaurbanatokensol)
   - [3.2.- EVENT SMART CONTRACT MARKET_PLACE.SOL](#32--event-smart-contract-market_placesol)
 - [4.- USO DE IPFS NFT.Storage y METADATOS del NFT](#4--uso-de-ipfs-nftstorage-y-metadatos-del-nft)
-- [5.- DESPLIGUE DE DApp EN IPFS USANDO NFT.Storage](#5--despligue-de-dapp-en-ipfs-usando-nftstorage)
-- [6.- SMART CONTRACTS](#6--smart-contracts)
-  - [6.1.- MemoriaUrbanToken](#61--memoriaurbantoken)
-    - [6.1.1.- Read Contract](#611--read-contract)
-    - [6.1.2.- Write Contract](#612--write-contract)
-  - [6.2.- Marketplace](#62--marketplace)
-    - [6.2.1.- Read Contract](#621--read-contract)
-    - [6.2.2.- Write Contract](#622--write-contract)
+- [5.- SMART CONTRACTS](#5--smart-contracts)
+  - [5.1.- MemoriaUrbanToken](#51--memoriaurbantoken)
+    - [5.1.1.- Read Contract](#511--read-contract)
+    - [5.1.2.- Write Contract](#512--write-contract)
+  - [5.2.- Marketplace](#52--marketplace)
+    - [5.2.1.- Read Contract](#521--read-contract)
+    - [5.2.2.- Write Contract](#522--write-contract)
 
 
 ---
@@ -175,26 +174,15 @@ module.exports = function (deployer) {
 ## [⇪](#índice)
 
 ---
-## 5.- DESPLIGUE DE DApp EN IPFS USANDO NFT.Storage
-(❌❌❌ACTUALIZAR VIDEO Y LINK CON LA NUEVA INTERFAZ❌❌❌❌)
----
-* ## Beneficio : Aumentar la tolerancia a fallos y la resiliencia en general.
-* ## 📽️ [Video Demostrativo Despliegue Dapps Nfts.Storage](https://github.com//jcontrerasd/Proyecto-MUTS/raw/main/4.-Despliegue_de_Dapps_en_IPFS_usando_NFT.Storage.mp4)
-    * ### [IPFS URL](https://bafybeid45lnfoihkit7igqlm2tv456y53ozytnfpp6spgtvgikhax56wjq.ipfs.nftstorage.link/)
-
-    <img width="500" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTS/assets/27821228/5b894d90-8ef9-4f06-ace0-38d1b67ff54b" style="display: block; margin-left: auto; margin-right: auto;">
-
-## [⇪](#índice)
----
-## 6.- SMART CONTRACTS
+## 5.- SMART CONTRACTS
 ---
 
-### 6.1.- MemoriaUrbanToken 
+### 5.1.- MemoriaUrbanToken 
 #### (Address [0x0B792DeefBc6f202c78cb34F8C3B4d186f6b2832](https://sepolia.etherscan.io/address/0x0B792DeefBc6f202c78cb34F8C3B4d186f6b2832)) 
 
 El contrato crea un token ERC721 llamado MemT (MUT). El contrato puede ser utilizado para crear nuevos tokens, aprobar la custodia del NFT a un contrato que permita custodiar el NFT y comercializarlo.
 
-#### 6.1.1.- Read Contract
+#### 5.1.1.- Read Contract
 
 > **1. balanceOf :** _Devuelve la cantidad de un token que posee una dirección._
 
@@ -212,8 +200,9 @@ El contrato crea un token ERC721 llamado MemT (MUT). El contrato puede ser utili
 
 > **8. tokenURI :** _Devuelve la URI del token._
 
+## [⇪](#índice)
 
-#### 6.1.2.- Write Contract
+#### 5.1.2.- Write Contract
 
 > **1. approve :** _Autoriza a una dirección para transferir un token en nombre de otra dirección._
 
@@ -237,12 +226,12 @@ El contrato crea un token ERC721 llamado MemT (MUT). El contrato puede ser utili
 
 ## [⇪](#índice)
 
-### 6.2.- Marketplace
+### 5.2.- Marketplace
 #### (Address [0xf290c169C0184adb2cCc5BAC23cf91Ff72cDdE30](https://sepolia.etherscan.io/address/0xf290c169C0184adb2cCc5BAC23cf91Ff72cDdE30))
 Corresponde a un MarketPlace que permite a los usuarios comprar y vender tokens ERC721. En resumen permite comprar y vender tokens ERC721.
 
 
-#### 6.2.1.- Read Contract 
+#### 5.2.1.- Read Contract 
 
 > **1. itemsForSale:** _Variable de estado que cuenta el número de NFTs en venta._
 > **2. balanceOf:** _Devuelve la cantidad de un token que posee una dirección._
@@ -253,8 +242,9 @@ Corresponde a un MarketPlace que permite a los usuarios comprar y vender tokens 
 > **7. supportsInterface:** _Devuelve si un contrato implementa una interfaz ERC721._
 > **8. uri:** _Devuelve la URI de un NFT._
 
+## [⇪](#índice)
 
-#### 6.2.2.- Write Contract 
+#### 5.2.2.- Write Contract 
 
 > **1. acceptCommission:** _Permite al propietario del NFT aceptar o rechazar la comisión propuesta. Si se acepta la comisión, el NFT se pone a la venta automáticamente. Si se rechaza, la comisión pendiente se elimina._
 

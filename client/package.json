@@ -44,6 +44,7 @@
     ]
   },
   "devDependencies": {
+    "copyfiles": "^2.4.1",
     "customize-cra": "^1.0.0",
     "truffle-plugin-verify": "^0.6.7"
   }
