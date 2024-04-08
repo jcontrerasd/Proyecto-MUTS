@@ -35,7 +35,7 @@ export default class App extends React.Component {
 
 
 
-
+  
   componentDidMount = async () => {
     try {
       const web3 = await getWeb3();
