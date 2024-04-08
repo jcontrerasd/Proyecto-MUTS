@@ -416,3 +416,16 @@ button#button:hover {
   border-radius: 5px;
   z-index: 1000;
 }
+.project-container {
+  display: flex;
+  align-items: center;
+  /* Alinea verticalmente los elementos hijos al centro */
+}
+.project-image {
+  margin-right: 20px;
+  /* Añade un margen a la derecha de la imagen */
+  width: 100px;
+  /* Ajusta el ancho de la imagen según necesites */
+  height: auto;
+  /* Mantiene la proporción de la imagen */
+}

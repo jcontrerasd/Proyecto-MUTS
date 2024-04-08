@@ -707,10 +707,10 @@ export default class App extends React.Component {
 
     return (
       <div className="App">
+        <img src="./Imagenes/TarjetaMuts.jpg" alt="Descripción de la imagen" className="project-image" />
         <div className="project-description">
           Preservar los momentos urbanos en NFTs
         </div>
-
         <div className="toggle-log-container">
           <label htmlFor="toggle-log">Mostrar Log</label>
           <input
