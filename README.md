@@ -157,6 +157,7 @@ module.exports = function (deployer) {
 ### 3.1.- EVENT SMART CONTRACT MEMORIAURBANATOKEN.SOL
 <img width="600" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTs/assets/27821228/0a837ac8-f13e-438b-8ee3-1ef29612d9ab"  style="display: block; margin-left: auto; margin-right: auto;">
 
+## [⇪](#índice)
 
 ### 3.2.- EVENT SMART CONTRACT MARKET_PLACE.SOL
 <img width="600" alt="image" src="https://github.com/jcontrerasd/Proyecto-MUTs/assets/27821228/0bf4ffcb-8014-48f6-80d0-8478ce83a3ed" style="display: block; margin-left: auto; margin-right: auto;">
@@ -221,6 +222,7 @@ El contrato crea un token ERC721 llamado MemT (MUT). El contrato puede ser utili
 #### ⚠️ IMPORTANTE 
 
 > **4.safeTransferFrom() (ERC721) :** _Transfiere un token de una dirección a otra. No verifica que el receptor tenga suficiente saldo._
+>
 > **5.safeTransferFrom() (OpenZeppelin) :** _Transfiere un token de una dirección a otra de forma segura. 
                                                 Verifica que el receptor tenga suficiente saldo y que el remitente esté autorizado para transferir el token._
 
