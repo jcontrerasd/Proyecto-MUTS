@@ -4,10 +4,13 @@ import web3 from 'web3';
 import "./App.css";
 import getWeb3 from "../helpers/getWeb3";
 import Imagenppl from './Imagenes/img-ppl.jpg';
+import tarjetamuts from './Imagenes/TarjetaMuts.jpg';
 import axios from 'axios';
 
 const NETWORKSEPOLIA = 11155111;
 const COMISION = 2.5; // 2.5% de Comisión
+
+
 
 export default class App extends React.Component {
   state = {
@@ -35,7 +38,7 @@ export default class App extends React.Component {
 
 
 
-  
+
   componentDidMount = async () => {
     try {
       const web3 = await getWeb3();
@@ -52,10 +55,10 @@ export default class App extends React.Component {
       this.state.RUNNETWORK = networkIdNumber;
 
 
-      const CONTRACT_ADDRESS_TOKEN = require("../contracts/MemoriaUrbanaToken.json").networks[this.state.RUNNETWORK].address
+      const CONTRACT_ADDRESS_TOKEN = require("../contracts/MemoriaUrbanaToken.json").networks[this.state.RUNNETWORK].address;
       const CONTRACT_ABI_TOKEN = require("../contracts/MemoriaUrbanaToken.json").abi;
 
-      const CONTRACT_ADDRESS_MKP = require("../contracts/Market_Place.json").networks[this.state.RUNNETWORK].address
+      const CONTRACT_ADDRESS_MKP = require("../contracts/Market_Place.json").networks[this.state.RUNNETWORK].address;
       const CONTRACT_ABI_MKP = require("../contracts/Market_Place.json").abi;
 
       // Initialize contract instances
@@ -113,7 +116,7 @@ export default class App extends React.Component {
       logmsg = '';
       console.error(error);
     }
-  }
+  };
 
 
   /////////////// --------- SMART CONTRACT EVENTS ---------  ///////////////
@@ -127,7 +130,7 @@ export default class App extends React.Component {
       await new Promise((resolve) => setTimeout(resolve, 1000));
     }
 
- 
+
     try {
       let logmsg = '';
 
@@ -136,9 +139,9 @@ export default class App extends React.Component {
       const subscription_token = this.state.contract_token.events.allEvents();
 
       subscription_token.on('connected', function (subscriptionId) {
-        console.log("New subscription_token with ID: " + subscriptionId)
+        console.log("New subscription_token with ID: " + subscriptionId);
         // alert(subscriptionId);
-      })
+      });
 
       let lastPrintedEventId = null;
 
@@ -157,14 +160,14 @@ export default class App extends React.Component {
         let logmsg = `Error al escuchar eventos: %o, ${error} `;
         this.printMessage("msg", logmsg);
         logmsg = '';
-      })
+      });
 
       /////////// MARKETPLACE ////////////
       const subscription_mkp = this.state.contract_mkp.events.allEvents();
 
       subscription_mkp.on('connected', (subscriptionId) => {
-        console.log("New subscription_mkp with ID: " + subscriptionId)
-      })
+        console.log("New subscription_mkp with ID: " + subscriptionId);
+      });
 
       subscription_mkp.on("data", (event) => {
         if (event.event === "TokenPurchased" && event.transactionHash !== lastPrintedEventId) {
@@ -179,12 +182,12 @@ export default class App extends React.Component {
         lastPrintedEventId = event.transactionHash;
         this.printMessage("msg", logmsg);
         logmsg = '';
-      })
+      });
       subscription_mkp.on("error", (error) => {
         let logmsg = `Error al escuchar eventos: %o, ${error} `;
         this.printMessage("msg", logmsg);
         logmsg = '';
-      })
+      });
       // Print a separator line after each event log
       this.printMessage("ln");
     } catch (error) {
@@ -192,7 +195,7 @@ export default class App extends React.Component {
       this.printMessage("msg", logmsg);
       logmsg = '';
     }
-  }
+  };
 
 
   showNetworkSelectionDialog = () => {
@@ -204,7 +207,7 @@ export default class App extends React.Component {
     const generalText = document.createElement("h3");
     generalText.innerHTML = "PROBLEMA CON LA RED...!!!<br> <br>" +
       "Dapp Momentaneamente solo opera con la red Sepolia...!!!<br> <br>" +
-      ""
+      "";
     dialogDiv.appendChild(generalText);
 
     // Crear el botón para SEPOLIA
@@ -234,7 +237,7 @@ export default class App extends React.Component {
       switch (targetNetwork) {
         case NETWORKSEPOLIA:
           // chainId = '0x5'; // Chain ID for SEPOLIA
-          chainId = `0x${NETWORKSEPOLIA.toString(16)}`
+          chainId = `0x${NETWORKSEPOLIA.toString(16)}`;
           chainName = 'SEPOLIA';
           rpcUrls = ['https://sepolia.infura.io/v3/d571bed228404b8cb615e74b35ece409']; // RPC URL for SEPOLIA
           nativeCurrency.name = 'SepoliaETH';
@@ -274,14 +277,13 @@ export default class App extends React.Component {
             ],
           });
         } catch (addError) {
-          console.log(addError)
+          console.log(addError);
         }
       }
     }
-  }
+  };
 
   // --------- METAMASK EVENTS ---------
-
   handleMetamaskEvents = () => {
     window.ethereum.on('accountsChanged', (accounts) => {
       // Actualizar el estado con la nueva cuenta
@@ -307,7 +309,7 @@ export default class App extends React.Component {
         window.location.reload();
       }
     });
-  }
+  };
 
   handleChainChanged = (chainId) => {
     // Convertir el chainId a un número (opcional, dependiendo de cómo desees usarlo)
@@ -320,7 +322,7 @@ export default class App extends React.Component {
     this.setState({ RUNNETWORK: chainId });
 
     // Aquí deberías actualizar/reiniciar la instancia de web3 y otros componentes relacionados
-  }
+  };
 
 
   // Función para agregar mensajes o separadores
@@ -354,8 +356,8 @@ export default class App extends React.Component {
 
     // Get the value from the contract to prove it worked.
     const response = await contract.methods.get().call();
-    this.setState({ storageValue: response })
-  }
+    this.setState({ storageValue: response });
+  };
 
 
   // ------------ GET MemoriaUrbanaToken INFORMATION FUNCTION ------------
@@ -366,7 +368,7 @@ export default class App extends React.Component {
       const symboltoken = await contract.methods.symbol().call();
 
       // Save new states
-      this.setState({ nametoken, symboltoken })
+      this.setState({ nametoken, symboltoken });
 
     } catch (error) {
       console.error(`Error al obtener Información :  ${error} `);
@@ -549,12 +551,10 @@ export default class App extends React.Component {
     //   // Proponer la comisión antes de poner el NFT a la venta
     //   await this.proposeCommission(tokenId, priceEth);
     // }
-
     if (!commissionAccepted) {
       // Proponer la comisión antes de poner el NFT a la venta
       const result = await this.proposeCommission(tokenId, priceEth);
       // Actualizar commissionAccepted según el resultado de proposeCommission
-
       if (result && result.accepted !== undefined) {
         // console.log('Valor de result.accepted:', result.accepted);
         this.setState({ commissionAccepted: result.accepted });
@@ -642,6 +642,7 @@ export default class App extends React.Component {
       const commission = (valueTokenWei * COMISION) / 100; // Calcular la comisión del 2.5%
       const sellerAmount = valueTokenWei - commission; // Monto a pagar al vendedor después de descontar la comisión
 
+
       //////// SEPARADOR ////////   
       this.printMessage("ln");
       this.printMessage("ln");
@@ -674,7 +675,7 @@ export default class App extends React.Component {
     const { accounts, web3Provider } = this.state;
     let logmsg;
 
-    var signature = await web3Provider.eth.personal.sign("Esto es un mensaje que quiero firmar", accounts[0], "")
+    var signature = await web3Provider.eth.personal.sign("Esto es un mensaje que quiero firmar", accounts[0], "");
     this.setState({ signature: signature, signer: accounts[0] });
 
     this.printMessage("ln");
@@ -682,7 +683,7 @@ export default class App extends React.Component {
     this.printMessage("msg", logmsg);
     logmsg = `[ ${this.getFormattedDateTime()} ]- Signed message: ${signature}`;
     this.printMessage("msg", logmsg);
-  }
+  };
 
 
 
@@ -707,9 +708,11 @@ export default class App extends React.Component {
 
     return (
       <div className="App">
-        <img src="./Imagenes/TarjetaMuts.jpg" alt="Descripción de la imagen" className="project-image" />
-        <div className="project-description">
-          Preservar los momentos urbanos en NFTs
+        <img width="400" src={tarjetamuts} alt="Imagen del NFT" className="card"  style={{ marginLeft: '90px' }} />
+          <div className="project-description">
+          MEMORIAS URBANAS <br />
+          NFT<br />
+          LEGADOS PERPETUOS A TREAVÉS DEL TIEMPO
         </div>
         <div className="toggle-log-container">
           <label htmlFor="toggle-log">Mostrar Log</label>
@@ -717,8 +720,7 @@ export default class App extends React.Component {
             type="checkbox"
             id="toggle-log"
             checked={showLog}
-            onChange={() => this.setState({ showLog: !showLog })}
-          />
+            onChange={() => this.setState({ showLog: !showLog })} />
         </div>
 
         {this.state.loading && <Spinner />}
@@ -772,8 +774,7 @@ export default class App extends React.Component {
                 style={{ width: '500px', marginRight: '5px', marginTop: '0px', marginBottom: '0px' }}
                 placeholder="Inserte la URI del Token"
                 value={this.state.tokenURI}
-                onChange={(uri) => this.setState({ tokenURI: uri.target.value })}
-              />
+                onChange={(uri) => this.setState({ tokenURI: uri.target.value })} />
               <button id="button" onClick={this.crearNFT}>
                 <span className="material-icons">add</span>
                 Crear NFT
@@ -823,16 +824,14 @@ export default class App extends React.Component {
                   style={{ width: '110px', marginBottom: '0px' }}
                   placeholder="TokenID"
                   type="number"
-                  onChange={(t1) => this.setState({ tokenident: t1.target.value })}
-                />
+                  onChange={(t1) => this.setState({ tokenident: t1.target.value })} />
                 <input
                   style={{ width: '110px', marginBottom: '0px' }}
                   placeholder="Precio NFT"
                   type="number"
                   min="0"
                   step="0.01"
-                  onChange={(p1) => this.setState({ salePriceEth: p1.target.value })}
-                />
+                  onChange={(p1) => this.setState({ salePriceEth: p1.target.value })} />
               </div>
               <div style={{ marginLeft: 'auto' }}>
                 <button
@@ -860,8 +859,7 @@ export default class App extends React.Component {
                   style={{ width: '110px', marginBottom: '0px' }}
                   placeholder="TokenID"
                   type="number"
-                  onChange={(t2) => this.setState({ tokenident: t2.target.value })}
-                />
+                  onChange={(t2) => this.setState({ tokenident: t2.target.value })} />
                 <input
                   style={{ width: '110px', marginBottom: '0px' }}
                   placeholder="Precio NFT"
@@ -869,8 +867,7 @@ export default class App extends React.Component {
                   min="0"
                   step="0.01"
                   value={this.state.valueTokenEth}
-                  readOnly
-                />
+                  readOnly />
               </div>
 
               <div style={{ marginLeft: 'auto' }}>
@@ -896,16 +893,14 @@ export default class App extends React.Component {
                   style={{ width: '110px', marginBottom: '0px' }}
                   placeholder="TokenID"
                   type="number"
-                  onChange={(t3) => this.setState({ tokenident: t3.target.value })}
-                />
+                  onChange={(t3) => this.setState({ tokenident: t3.target.value })} />
                 <input
                   style={{ width: '110px', marginBottom: '0px' }}
                   placeholder="Precio NFT"
                   type="number"
                   min="0"
                   step="0.01"
-                  onChange={(p2) => this.setState({ salePriceEth: p2.target.value })}
-                />
+                  onChange={(p2) => this.setState({ salePriceEth: p2.target.value })} />
               </div>
               <div style={{ marginLeft: 'auto' }}>
                 <button id="button" onClick={() => this.comprarNFT(this.state.tokenident, this.state.salePriceEth)}>
@@ -930,6 +925,6 @@ export default class App extends React.Component {
         </div>
       </div>
     );
-            }
+  }
 
 }
